@@ -14,11 +14,11 @@ spring:
     init:
       platform: mysql
   datasource:
-    url: jdbc:mysql://localhost:3306/demo?autoReconnect=true&setTimezone=Asia/Seoul # 변경해주세요
-    username: # username
-    password: # password
-    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
-    # driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
+    url: ${DB_URL}
+    username: ${DB_USER} # username
+    password: ${DB_PASSWORD} # password
+    # driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+    driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
   OAuth2:
     google:
       url: https://accounts.google.com/o/oauth2/v2/auth
@@ -57,7 +57,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
       # create, update, create-drop, none 등의 옵션이 있습니다.
       # create: 기존테이블 삭제 후 다시 생성
       # update: 변경된 부분만 반영
