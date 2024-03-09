@@ -1,6 +1,8 @@
 package com.example.demo.src.user.entity;
 
 import com.example.demo.common.Constant.SocialLoginType;
+import com.example.demo.common.Constant.UserGrade;
+import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity;
 import java.time.LocalDateTime;
 import lombok.*;
@@ -34,23 +36,31 @@ public class User extends BaseEntity {
     @Column(length = 100)
     private String profileImageUrl;
 
-   // @Column(nullable = false)
+    @Column(nullable = false)
     private Integer birthYear;
 
-   // @Column(nullable = false)
+    @Column(nullable = false)
     private Integer birthMonth;
 
-   // @Column(nullable = false)
+    @Column(nullable = false)
     private Integer birthDay;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private Integer termsOfUseAgree;
 
-   // @Column(nullable = false)
+    @Column(nullable = false)
     private Integer termsDataPolicyAgree;
 
-   // @Column(nullable = false)
+    @Column(nullable = false)
     private Integer termsLocationAgree;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserGrade userGrade;
 
     private LocalDateTime lastLoginAt;
 

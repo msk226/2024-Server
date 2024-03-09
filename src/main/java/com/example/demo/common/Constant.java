@@ -6,5 +6,20 @@ public class Constant {
         KAKAO,
         NAVER
     }
+
+    public enum UserStatus{
+        휴면계정,
+        탈퇴신청,
+        탈퇴취소,
+        탈퇴완료,
+        정상
+    }
+
+    public enum UserGrade{
+        USER,
+        ADMIN,
+    }
+
+
 }
 
