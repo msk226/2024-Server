@@ -12,7 +12,8 @@ public class Constant {
         탈퇴신청,
         탈퇴취소,
         탈퇴완료,
-        정상
+        이용정지,
+        정상,
     }
 
     public enum UserGrade{
