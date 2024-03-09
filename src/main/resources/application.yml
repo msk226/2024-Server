@@ -26,6 +26,11 @@ spring:
       client-secret:  # client-secret
       callback-login-url: http://localhost:9000/app/users/auth/google/login/callback # 등록한 정보에 맞게 수정해주세요
       scope: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile # 등록한 정보에 맞게 수정해주세요
+    kakao:
+      url: https://kauth.kakao.com/oauth/authorize
+      client-id: ${KAKAO_CLIENT_ID} # client-id
+      callback-login-url: http://localhost:9000/app/users/auth/kakao/login/callback # 등록한 정보에 맞게 수정해주세요
+   #   scope: profile, account_email # 등록한 정보에 맞게 수정해주세요
 
 ssh:
   remote_jump_host: ${JUMP_HOST} # 원격서버에 접속할 점프서버

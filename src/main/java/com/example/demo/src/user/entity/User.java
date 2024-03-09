@@ -34,22 +34,22 @@ public class User extends BaseEntity {
     @Column(length = 100)
     private String profileImageUrl;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private Integer birthYear;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private Integer birthMonth;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private Integer birthDay;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private Integer termsOfUseAgree;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private Integer termsDataPolicyAgree;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private Integer termsLocationAgree;
 
     private LocalDateTime lastLoginAt;
