@@ -1,6 +1,8 @@
 package com.example.demo.src.user.entity;
 
+import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.entity.BaseEntity;
+import java.time.LocalDateTime;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +30,31 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private boolean isOAuth;
+
+    @Column(length = 100)
+    private String profileImageUrl;
+
+    @Column(nullable = false)
+    private Integer birthYear;
+
+    @Column(nullable = false)
+    private Integer birthMonth;
+
+    @Column(nullable = false)
+    private Integer birthDay;
+
+    @Column(nullable = false)
+    private Integer termsOfUseAgree;
+
+    @Column(nullable = false)
+    private Integer termsDataPolicyAgree;
+
+    @Column(nullable = false)
+    private Integer termsLocationAgree;
+
+    private LocalDateTime lastLoginAt;
+
+    private SocialLoginType socialLoginType;
 
     @Builder
     public User(Long id, String email, String password, String name, boolean isOAuth) {

@@ -166,5 +166,4 @@ public class UserController {
         return new BaseResponse<>(getSocialOAuthRes);
     }
 
-
 }
