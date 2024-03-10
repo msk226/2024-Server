@@ -28,7 +28,10 @@ public class PostService {
     // 게시물 작성 로직
     public PostPostingRes createPost(PostPostingReq postPostingReq) {
         Post post = postPostingReq.toEntity();
+        post.setUser(userRepository.findById(postPostingReq.getUserId())
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER)));
         postRepository.save(post);
+
         return new PostPostingRes(post);
     }
     
@@ -41,8 +44,9 @@ public class PostService {
     public void deletePost(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
-        if (post.getAuthor().getId() != userId)
-            throw new BaseException(BaseResponseStatus.INVALID_JWT);
+        if (post.getAuthor().getId() != userId){
+            throw new BaseException(BaseResponseStatus.NOT_MATCH_USER);
+        }
         post.delete();
     }
     @Transactional(readOnly = true)

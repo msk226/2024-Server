@@ -10,6 +10,8 @@ import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,7 @@ public class PostController {
     // 게시글 작성
     @ResponseBody
     @PostMapping("")
+    @Operation( security = @SecurityRequirement(name = "jwtToken"))
     public BaseResponse<PostPostingRes> createPost(@RequestBody PostPostingReq postPostingReq) {
         jwtService.isUserValid(postPostingReq.getUserId());
         PostPostingRes postPostingRes = postService.createPost(postPostingReq);
@@ -43,6 +46,7 @@ public class PostController {
     // 게시글 수정
     @ResponseBody
     @PatchMapping("/{postId}")
+    @Operation( security = @SecurityRequirement(name = "jwtToken"))
     public BaseResponse<String> updatePost(@RequestBody PatchPostingReq patchPostingReq,
                                            @PathVariable("postId") Long postId){
         jwtService.isUserValid(patchPostingReq.getUserId());
@@ -55,9 +59,11 @@ public class PostController {
     // 게시글 삭제
 
     @ResponseBody
-    @PatchMapping("/{postId}/delete")
-    public BaseResponse<String> deletePost(@PathVariable("postId") Long postId){
-        postService.deletePost(postId, jwtService.getUserId());
+    @PatchMapping("/{postId}/users/{userId}/delete")
+    @Operation( security = @SecurityRequirement(name = "jwtToken"))
+    public BaseResponse<String> deletePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId){
+        jwtService.isUserValid(userId);
+        postService.deletePost(postId, userId);
         String result = "게시글이 삭제되었습니다.";
         return new BaseResponse<>(result);
     }
@@ -65,6 +71,7 @@ public class PostController {
     // 특정 게시글 조회
     @ResponseBody
     @GetMapping("/{postId}")
+    @Operation( security = @SecurityRequirement(name = "jwtToken"))
     public BaseResponse<GetPostingRes> getPost(@PathVariable("postId") Long postId){
         GetPostingRes getPostingRes = postService.getPost(postId);
         return new BaseResponse<>(getPostingRes);
@@ -73,6 +80,7 @@ public class PostController {
     // 게시글 좋아요 기능
     @ResponseBody
     @PostMapping("/{postId}/users/{userId}/like")
+    @Operation( security = @SecurityRequirement(name = "jwtToken"))
     public BaseResponse<PostPostingLikeRes> addAndCancelLike(@PathVariable Long postId, @PathVariable Long userId){
         jwtService.isUserValid(userId);
         Like like = postService.addAndCancelLike(postId, userId);

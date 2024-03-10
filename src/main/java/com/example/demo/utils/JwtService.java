@@ -76,7 +76,7 @@ public class JwtService {
     }
 
     public void isUserValid(Long userId) {
-        if (!Objects.equals(userId, getUserId())){
+        if (userId == getUserId()){
             throw new BaseException(INVALID_JWT);
         }
     }

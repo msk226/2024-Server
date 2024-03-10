@@ -4,9 +4,11 @@ import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.Constant.UserGrade;
 import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserAgreeReq;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.*;
 
 import javax.persistence.*;
@@ -68,6 +70,10 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserGrade userGrade;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Like> likes;
 
     private LocalDateTime lastLoginAt;
 

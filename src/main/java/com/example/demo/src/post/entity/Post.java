@@ -62,6 +62,9 @@ public class Post extends BaseEntity{
     public void update(PatchPostingReq patchPostingReq){
         this.content = patchPostingReq.getContent();
     }
+    public void setUser(User user){
+        this.author = user;
+    }
 
     public void delete( ){
         this.state = State.INACTIVE;
