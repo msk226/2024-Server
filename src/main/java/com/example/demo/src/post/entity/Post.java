@@ -59,4 +59,8 @@ public class Post extends BaseEntity{
         this.content = patchPostingReq.getContent();
     }
 
+    public void delete( ){
+        this.state = State.INACTIVE;
+    }
+
 }

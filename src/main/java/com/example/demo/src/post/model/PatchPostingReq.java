@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatchPostingReq {
     private Long userId;
-    private Long postId;
     private String content;
     
 }

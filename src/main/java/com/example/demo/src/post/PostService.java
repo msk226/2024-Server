@@ -25,10 +25,16 @@ public class PostService {
         return new PostPostingRes(post);
     }
     
-    public void updatePost(PatchPostingReq patchPostingReq) {
-        Post post = postRepository.findById(patchPostingReq.getPostId())
+    public void updatePost(PatchPostingReq patchPostingReq, Long postId) {
+        Post post = postRepository.findById(postId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         post.update(patchPostingReq);
+    }
+
+    public void deletePost(Long postId) {
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
+        post.delete();
     }
 
 }

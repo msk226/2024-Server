@@ -10,6 +10,8 @@ import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +37,12 @@ public class PostController {
     }
 
     // 게시글 수정
-    public BaseResponse<String> updatePost(@RequestBody PatchPostingReq patchPostingReq) {
+    @ResponseBody
+    @PatchMapping("/{postId}")
+    public BaseResponse<String> updatePost(@RequestBody PatchPostingReq patchPostingReq,
+                                           @PathVariable("postId") Long postId){
         jwtService.isUserValid(patchPostingReq.getUserId());
-        postService.updatePost(patchPostingReq);
+        postService.updatePost(patchPostingReq, postId);
         
         String result = "게시글이 수정되었습니다.";
         return new BaseResponse<>(result);
@@ -45,7 +50,16 @@ public class PostController {
 
     // 게시글 삭제
 
-    // 게시글 조회
+    @ResponseBody
+    @PatchMapping("/{postId}/delete")
+    public BaseResponse<String> deletePost(@PathVariable("postId") Long postId){
+        postService.deletePost(postId);
+        String result = "게시글이 삭제되었습니다.";
+        return new BaseResponse<>(result);
+    }
+
+    // 특정 게시글 조회
+
 
     // 게시글 좋아요
 
