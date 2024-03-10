@@ -127,4 +127,9 @@ public class UserService {
         User user = userRepository.findByEmailAndState(email, ACTIVE).orElseThrow(() -> new BaseException(NOT_FIND_USER));
         return new GetUserRes(user);
     }
+
+    public boolean validateJoinUser(PostUserReq postUserReq){
+        Optional<User> user = userRepository.findByEmailAndState(postUserReq.getEmail(), ACTIVE);
+        return user.isPresent();
+    }
 }

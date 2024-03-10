@@ -1,6 +1,10 @@
 package com.example.demo.src.user.model;
 
+import com.example.demo.common.Constant.SocialLoginType;
+import com.example.demo.common.Constant.UserGrade;
+import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.src.user.entity.User;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +50,11 @@ public class KaKaoUser {
                 .password("NONE")
                 .name(this.properties.nickname)
                 .isOAuth(true)
+                .profileImageUrl(this.properties.profile_image)
+                .socialLoginType(SocialLoginType.KAKAO)
+                .userGrade(UserGrade.USER)
+                .lastLoginAt(LocalDateTime.now())
+                .userStatus(UserStatus.정상)
                 .build();
     }
 }

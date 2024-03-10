@@ -24,13 +24,11 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 @RequestMapping("/app/users")
 public class UserController {
 
-
     private final UserService userService;
 
     private final OAuthService oAuthService;
 
     private final JwtService jwtService;
-
 
     /**
      * 회원가입 API
@@ -41,10 +39,14 @@ public class UserController {
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
-        // TODO: email 관련한 짧은 validation 예시입니다. 그 외 더 부가적으로 추가해주세요!
         if(postUserReq.getEmail() == null){
             return new BaseResponse<>(USERS_EMPTY_EMAIL);
         }
+        // 입력 받은 유저 정보를 통한 유효성 체크
+        if (userService.validateJoinUser(postUserReq)) {
+            return new BaseResponse<>(INVALID_USER_INFO);
+        }
+
         //이메일 정규표현
         if(!isRegexEmail(postUserReq.getEmail())){
             return new BaseResponse<>(POST_USERS_INVALID_EMAIL);

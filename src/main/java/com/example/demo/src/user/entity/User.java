@@ -10,6 +10,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Entity // 필수, Class 를 Database Table화 해주는 것이다
@@ -30,6 +32,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 30)
     private String name;
 
+    @Column(nullable = false, length = 20)
+    private String phoneNum;
+
     @Column(nullable = false)
     private boolean isOAuth;
 
@@ -46,13 +51,13 @@ public class User extends BaseEntity {
     private Integer birthDay;
 
     @Column(nullable = false)
-    private Integer termsOfUseAgree;
+    private boolean termsOfUseAgree;
 
     @Column(nullable = false)
-    private Integer termsDataPolicyAgree;
+    private boolean termsDataPolicyAgree;
 
     @Column(nullable = false)
-    private Integer termsLocationAgree;
+    private boolean termsLocationAgree;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -65,15 +70,6 @@ public class User extends BaseEntity {
     private LocalDateTime lastLoginAt;
 
     private SocialLoginType socialLoginType;
-
-    @Builder
-    public User(Long id, String email, String password, String name, boolean isOAuth) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.isOAuth = isOAuth;
-    }
 
     public void updateName(String name) {
         this.name = name;

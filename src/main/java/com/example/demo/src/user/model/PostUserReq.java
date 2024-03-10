@@ -1,6 +1,12 @@
 package com.example.demo.src.user.model;
 
+import com.example.demo.common.Constant.SocialLoginType;
+import com.example.demo.common.Constant.UserGrade;
+import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.src.user.entity.User;
+import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +17,28 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostUserReq {
-    private String email;
-    private String password;
-    private String name;
 
+    @NotBlank(message = "이메일은 필수 입력사항 입니다.")
+    private String email;
+    @NotBlank(message = "비밀번호는 필수 입력사항 입니다.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
+    private String password;
+    @NotBlank(message = "이름은 필수 입력사항 입니다.")
+    private String name;
+    @NotBlank(message = "전화번호는 필수 입력사항 입니다.")
+    private String phoneNum;
+
+    private String profileImageUrl;
+    private Integer birthYear;
+    private Integer birthMonth;
+    private Integer birthDay;
+    private boolean termsOfUseAgree;
+    private boolean termsDataPolicyAgree;
+    private boolean termsLocationAgree;
+    private UserStatus userStatus;
+    private UserGrade userGrade;
     private boolean isOAuth;
+    private SocialLoginType socialLoginType;
 
     public User toEntity() {
         return User.builder()
@@ -23,6 +46,17 @@ public class PostUserReq {
                 .password(this.password)
                 .name(this.name)
                 .isOAuth(this.isOAuth)
+                .profileImageUrl(this.profileImageUrl)
+                .phoneNum(this.phoneNum)
+                .birthYear(this.birthYear)
+                .birthMonth(this.birthMonth)
+                .birthDay(this.birthDay)
+                .termsOfUseAgree(this.termsOfUseAgree)
+                .termsDataPolicyAgree(this.termsDataPolicyAgree)
+                .termsLocationAgree(this.termsLocationAgree)
+                .userGrade(UserGrade.USER)
+                .userStatus(UserStatus.정상)
+                .lastLoginAt(LocalDateTime.now())
                 .build();
     }
 }
