@@ -1,13 +1,17 @@
 package com.example.demo.src.post;
 
 
+import com.example.demo.common.Constant.LikeStatus;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
 import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
+import com.example.demo.src.user.UserRepository;
+import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PostService {
 
+    private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
 
     // 게시물 작성 로직
     public PostPostingRes createPost(PostPostingReq postPostingReq) {
@@ -44,6 +50,27 @@ public class PostService {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         return new GetPostingRes(post);
+    }
+
+    public Like addAndCancelLike(Long postId, Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
+
+        if (isAlreadyExistAnswerLike(post, user)) {
+            Like like = likeRepository.findByPostAndUserAndLikeStatus(post, user, LikeStatus.ADD);
+            like.cancel();
+            return like;
+        } else {
+            Like like = new Like(user, post);
+            likeRepository.save(like);
+            return like;
+        }
+    }
+
+    private boolean isAlreadyExistAnswerLike(Post post, User user){
+        return likeRepository.existsByPostAndUserAndLikeStatus(post, user, LikeStatus.ADD);
     }
 
 }

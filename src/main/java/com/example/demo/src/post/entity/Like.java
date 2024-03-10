@@ -1,11 +1,17 @@
 package com.example.demo.src.post.entity;
 
+import com.example.demo.common.Constant.LikeStatus;
 import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.src.user.entity.User;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,5 +34,23 @@ public class Like extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    private LikeStatus likeStatus;
+
+    public void cancel(){
+        this.likeStatus = LikeStatus.CANCEL;
+    }
+    public Like(User user, Post post) {
+        this.user = user;
+        this.post = post;
+        this.likeStatus = LikeStatus.ADD;
+    }
 
 }

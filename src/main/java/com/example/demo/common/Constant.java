@@ -21,6 +21,10 @@ public class Constant {
         ADMIN,
     }
 
+    public enum LikeStatus{
+        ADD, CANCEL,
+    }
+
 
 }
 

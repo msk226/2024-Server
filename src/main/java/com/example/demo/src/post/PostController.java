@@ -2,8 +2,10 @@ package com.example.demo.src.post;
 
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
+import com.example.demo.src.post.model.PostPostingLikeRes;
 import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
 import com.example.demo.src.user.model.PatchUserReq;
@@ -68,9 +70,15 @@ public class PostController {
         return new BaseResponse<>(getPostingRes);
     }
 
-    // 게시글 좋아요
-
-    // 게시글 좋아요 취소
+    // 게시글 좋아요 기능
+    @ResponseBody
+    @PostMapping("/{postId}/users/{userId}/like")
+    public BaseResponse<PostPostingLikeRes> addAndCancelLike(@PathVariable Long postId, @PathVariable Long userId){
+        jwtService.isUserValid(userId);
+        Like like = postService.addAndCancelLike(postId, userId);
+        PostPostingLikeRes postPostingLikeRes = new PostPostingLikeRes(like);
+        return new BaseResponse<>(postPostingLikeRes);
+    }
 
     // 해시태그로 게시글 조회
 
