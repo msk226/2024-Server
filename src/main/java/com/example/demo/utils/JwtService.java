@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -74,4 +75,9 @@ public class JwtService {
         return claims.getBody().get("userId",Long.class);
     }
 
+    public void isUserValid(Long userId) {
+        if (!Objects.equals(userId, getUserId())){
+            throw new BaseException(INVALID_JWT);
+        }
+    }
 }

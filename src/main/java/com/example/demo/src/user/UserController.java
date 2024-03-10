@@ -106,7 +106,6 @@ public class UserController {
 
         String result = "수정 완료!!";
         return new BaseResponse<>(result);
-
     }
 
     /**
