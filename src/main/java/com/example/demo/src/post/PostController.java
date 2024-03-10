@@ -2,6 +2,7 @@ package com.example.demo.src.post;
 
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
 import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
@@ -10,6 +11,7 @@ import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,7 +61,12 @@ public class PostController {
     }
 
     // 특정 게시글 조회
-
+    @ResponseBody
+    @GetMapping("/{postId}")
+    public BaseResponse<GetPostingRes> getPost(@PathVariable("postId") Long postId){
+        GetPostingRes getPostingRes = postService.getPost(postId);
+        return new BaseResponse<>(getPostingRes);
+    }
 
     // 게시글 좋아요
 

@@ -55,6 +55,10 @@ public class Post extends BaseEntity{
     @ElementCollection
     private List<String> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
+
+
     public void update(PatchPostingReq patchPostingReq){
         this.content = patchPostingReq.getContent();
     }
