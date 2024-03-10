@@ -32,9 +32,11 @@ public class PostService {
         post.update(patchPostingReq);
     }
 
-    public void deletePost(Long postId) {
+    public void deletePost(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
+        if (post.getAuthor().getId() != userId)
+            throw new BaseException(BaseResponseStatus.INVALID_JWT);
         post.delete();
     }
     @Transactional(readOnly = true)

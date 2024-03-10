@@ -55,7 +55,7 @@ public class PostController {
     @ResponseBody
     @PatchMapping("/{postId}/delete")
     public BaseResponse<String> deletePost(@PathVariable("postId") Long postId){
-        postService.deletePost(postId);
+        postService.deletePost(postId, jwtService.getUserId());
         String result = "게시글이 삭제되었습니다.";
         return new BaseResponse<>(result);
     }
