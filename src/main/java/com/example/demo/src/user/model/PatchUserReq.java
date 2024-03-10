@@ -11,4 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatchUserReq {
     private String name;
+    private String phoneNum;
+    private String profileImageUrl;
+    private Integer birthYear;
+    private Integer birthMonth;
+    private Integer birthDay;
+
 }

@@ -62,7 +62,7 @@ public class UserService {
     public void modifyUserName(Long userId, PatchUserReq patchUserReq) {
         User user = userRepository.findByIdAndState(userId, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
-        user.updateName(patchUserReq.getName());
+        user.updateUser(patchUserReq);
     }
 
     public void deleteUser(Long userId) {
@@ -131,5 +131,12 @@ public class UserService {
     public boolean validateJoinUser(PostUserReq postUserReq){
         Optional<User> user = userRepository.findByEmailAndState(postUserReq.getEmail(), ACTIVE);
         return user.isPresent();
+    }
+
+    public PostUserAgreeRes modifyUserAgree(Long userId, PostUserAgreeReq postUserAgreeReq) {
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        user.updateUserAgree(postUserAgreeReq);
+        return new PostUserAgreeRes(userId);
     }
 }

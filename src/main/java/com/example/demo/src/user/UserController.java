@@ -98,9 +98,10 @@ public class UserController {
     @ResponseBody
     @PatchMapping("/{userId}")
     public BaseResponse<String> modifyUserName(@PathVariable("userId") Long userId, @RequestBody PatchUserReq patchUserReq){
-
         Long jwtUserId = jwtService.getUserId();
-
+        if(jwtUserId != userId){
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
         userService.modifyUserName(userId, patchUserReq);
 
         String result = "수정 완료!!";
@@ -117,6 +118,9 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public BaseResponse<String> deleteUser(@PathVariable("userId") Long userId){
         Long jwtUserId = jwtService.getUserId();
+        if(jwtUserId != userId){
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
 
         userService.deleteUser(userId);
 
@@ -167,5 +171,22 @@ public class UserController {
         GetSocialOAuthRes getSocialOAuthRes = oAuthService.oAuthLoginOrJoin(socialLoginType,code);
         return new BaseResponse<>(getSocialOAuthRes);
     }
+
+    /**  개인 정보 동의 내역 갱신 API
+     * [PATCH] /app/users/:userId/terms
+     * @param userId : 갱신 할 유저의 아이디
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PatchMapping("/{userId}/terms")
+    public BaseResponse<PostUserAgreeRes> modifyUserAgree(@PathVariable("userId") Long userId, @RequestBody PostUserAgreeReq postUserAgreeReq){
+        Long jwtUserId = jwtService.getUserId();
+        if(jwtUserId != userId){
+            return new BaseResponse<>(INVALID_USER_JWT);
+        }
+        PostUserAgreeRes postUserAgreeRes = userService.modifyUserAgree(userId, postUserAgreeReq);
+        return new BaseResponse<>(postUserAgreeRes);
+    }
+
 
 }

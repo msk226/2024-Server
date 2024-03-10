@@ -4,6 +4,8 @@ import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.Constant.UserGrade;
 import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.src.user.model.PatchUserReq;
+import com.example.demo.src.user.model.PostUserAgreeReq;
 import java.time.LocalDateTime;
 import lombok.*;
 
@@ -69,10 +71,35 @@ public class User extends BaseEntity {
 
     private LocalDateTime lastLoginAt;
 
+    private LocalDateTime consentRenewalDate;
+
     private SocialLoginType socialLoginType;
 
-    public void updateName(String name) {
-        this.name = name;
+    public void updateUser(PatchUserReq patchUserReq){
+        if(patchUserReq.getName() != null){
+            this.name = patchUserReq.getName();
+        }
+        if(patchUserReq.getProfileImageUrl() != null){
+            this.profileImageUrl = patchUserReq.getProfileImageUrl();
+        }
+        if(patchUserReq.getPhoneNum() != null){
+            this.phoneNum = patchUserReq.getPhoneNum();
+        }
+        if(patchUserReq.getBirthYear() != null){
+            this.birthYear = patchUserReq.getBirthYear();
+        }
+        if(patchUserReq.getBirthMonth() != null){
+            this.birthMonth = patchUserReq.getBirthMonth();
+        }
+        if(patchUserReq.getBirthDay() != null){
+            this.birthDay = patchUserReq.getBirthDay();
+        }
+    }
+
+    public void updateUserAgree(PostUserAgreeReq postUserAgreeReq){
+        this.termsOfUseAgree = postUserAgreeReq.isTermsOfUseAgree();
+        this.termsDataPolicyAgree = postUserAgreeReq.isTermsDataPolicyAgree();
+        this.termsLocationAgree = postUserAgreeReq.isTermsLocationAgree();
     }
 
     public void deleteUser() {

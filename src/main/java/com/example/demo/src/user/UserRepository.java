@@ -1,6 +1,7 @@
 package com.example.demo.src.user;
 
 import com.example.demo.src.user.entity.User;
+import java.time.LocalDateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,6 +15,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailAndState(String email, State state);
     List<User> findAllByEmailAndState(String email, State state);
     List<User> findAllByState(State state);
-    boolean existsByEmail(String email);
-
 }

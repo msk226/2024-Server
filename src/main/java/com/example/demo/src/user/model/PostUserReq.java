@@ -6,6 +6,7 @@ import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.src.user.entity.User;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,12 +30,25 @@ public class PostUserReq {
     private String phoneNum;
 
     private String profileImageUrl;
+
+    @NotNull(message = "생년월일은 필수 입력사항 입니다.")
     private Integer birthYear;
+
+    @NotNull(message = "생년월일은 필수 입력사항 입니다.")
     private Integer birthMonth;
+
+    @NotNull(message = "생년월일은 필수 입력사항 입니다.")
     private Integer birthDay;
+
+    @NotNull(message = "이용약관 동의는 필수 입력사항 입니다.")
     private boolean termsOfUseAgree;
+
+    @NotNull(message = "개인정보 수집 및 이용 동의는 필수 입력사항 입니다.")
     private boolean termsDataPolicyAgree;
+
+    @NotNull(message = "위치정보 이용 동의는 필수 입력사항 입니다.")
     private boolean termsLocationAgree;
+
     private UserStatus userStatus;
     private UserGrade userGrade;
     private boolean isOAuth;
@@ -57,6 +71,7 @@ public class PostUserReq {
                 .userGrade(UserGrade.USER)
                 .userStatus(UserStatus.정상)
                 .lastLoginAt(LocalDateTime.now())
+                .consentRenewalDate(LocalDateTime.now())
                 .build();
     }
 }
