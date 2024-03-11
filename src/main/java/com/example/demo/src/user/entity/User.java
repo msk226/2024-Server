@@ -5,9 +5,12 @@ import com.example.demo.common.Constant.UserGrade;
 import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.post.entity.Like;
+import com.example.demo.src.post.entity.Post;
+import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserAgreeReq;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
 
@@ -73,7 +76,13 @@ public class User extends BaseEntity {
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Like> likes;
+    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Report> reports = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts = new ArrayList<>();
 
     private LocalDateTime lastLoginAt;
 
