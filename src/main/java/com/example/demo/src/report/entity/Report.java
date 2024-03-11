@@ -46,4 +46,6 @@ public class Report extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post reportPost;
+
+    private Integer reportCount;
 }
