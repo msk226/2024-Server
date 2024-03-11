@@ -4,6 +4,7 @@ import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.image.entity.Image;
 import com.example.demo.src.post.model.PatchPostingReq;
+import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.user.entity.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -44,6 +46,7 @@ public class Post extends BaseEntity{
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     private User author;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -57,6 +60,9 @@ public class Post extends BaseEntity{
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reportPost", cascade = CascadeType.ALL)
+    private List<Report> reports = new ArrayList<>();
 
 
     public void update(PatchPostingReq patchPostingReq){
