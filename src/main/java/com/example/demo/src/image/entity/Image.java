@@ -36,4 +36,7 @@ public class Image {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
 }

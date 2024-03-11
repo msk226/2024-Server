@@ -19,7 +19,7 @@ public class FirebaseConfig {
 
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream("resources/serviceKey.json");
+        FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceKey.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -35,7 +35,7 @@ public class FirebaseConfig {
 
     @Bean
     public Bucket getBucket() throws IOException {
-        return StorageClient.getInstance(firebaseApp()).bucket();
+        return StorageClient.getInstance(firebaseApp()).bucket(Secret.FIREBASE_DATABASE_URL);
     }
 }
 
