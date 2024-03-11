@@ -67,6 +67,7 @@ public class Post extends BaseEntity{
 
     public void update(PatchPostingReq patchPostingReq){
         this.content = patchPostingReq.getContent();
+        this.images = patchPostingReq.getImages();
     }
     public void setUser(User user){
         this.author = user;
