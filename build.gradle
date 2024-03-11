@@ -59,6 +59,9 @@ dependencies {
     // jsch
     implementation ('com.jcraft:jsch:0.1.55')
 
+    // Firebase
+    implementation ('com.google.firebase:firebase-admin:8.0.0')
+
 
 }
 

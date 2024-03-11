@@ -5,3 +5,5 @@ logs/
 out/
 
 secrets.properties
+serviceKey.json
+src/main/java/com/example/demo/common/secret/Secret.java
