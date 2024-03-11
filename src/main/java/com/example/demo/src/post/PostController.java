@@ -99,7 +99,5 @@ public class PostController {
         @RequestParam @Min(1) @Max(10) Integer size){
         Page<Post> posts = postService.findAllBySearch(page, size);
         return new BaseResponse<>(new GetPostingPreviewRes(posts));
-
     }
-
 }
