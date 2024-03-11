@@ -34,7 +34,7 @@ public class ReportController {
 
     // 게시물 신고 조회 (관리자용)
     @ResponseBody
-    @GetMapping("/{reportId}")
+    @GetMapping("/{reportId}/")
     public BaseResponse<GetReportRes> getReport(@PathVariable Long reportId) {
         Report report = reportService.getReport(reportId);
         return new BaseResponse<>(new GetReportRes(report));
