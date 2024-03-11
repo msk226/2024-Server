@@ -12,7 +12,10 @@ import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,8 +75,17 @@ public class PostService {
             return likeRepository.save(like);
         }
     }
+
+    public Page<Post> findAllBySearch(int page, int size) {
+        PageRequest request = PageRequest.of(page, size);
+        return postRepository.findAllByOrderByCreatedAtDesc(request);
+    }
+
+
     private boolean isAlreadyExistAnswerLike(Post post, User user){
         return likeRepository.existsByPostAndUser(post, user);
     }
+
+
 
 }

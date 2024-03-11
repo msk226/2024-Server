@@ -3,24 +3,28 @@ package com.example.demo.src.post;
 
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.post.entity.Like;
+import com.example.demo.src.post.entity.Post;
+import com.example.demo.src.post.model.GetPostingPreviewRes;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
 import com.example.demo.src.post.model.PostPostingLikeRes;
 import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
-import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.utils.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -84,14 +88,18 @@ public class PostController {
     public BaseResponse<PostPostingLikeRes> addAndCancelLike(@PathVariable Long postId, @PathVariable Long userId){
         jwtService.isUserValid(userId);
         Like like = postService.addAndCancelLike(postId, userId);
-        PostPostingLikeRes postPostingLikeRes = new PostPostingLikeRes(like);
-        return new BaseResponse<>(postPostingLikeRes);
+        return new BaseResponse<>(new PostPostingLikeRes(like));
     }
 
-    // 해시태그로 게시글 조회
-
     // 게시글 무한 스크롤
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<GetPostingPreviewRes> findPostByPaging(
+        @RequestParam @Min(0) Integer page,
+        @RequestParam @Min(1) @Max(10) Integer size){
+        Page<Post> posts = postService.findAllBySearch(page, size);
+        return new BaseResponse<>(new GetPostingPreviewRes(posts));
 
-
+    }
 
 }
