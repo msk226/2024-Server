@@ -47,6 +47,9 @@ public class Like extends BaseEntity {
     public void cancel(){
         this.likeStatus = LikeStatus.CANCEL;
     }
+    public void add(){
+        this.likeStatus = LikeStatus.ADD;
+    }
     public Like(User user, Post post) {
         this.user = user;
         this.post = post;

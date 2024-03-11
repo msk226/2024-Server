@@ -63,18 +63,17 @@ public class PostService {
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
 
         if (isAlreadyExistAnswerLike(post, user)) {
-            Like like = likeRepository.findByPostAndUserAndLikeStatus(post, user, LikeStatus.ADD);
+            Like like = likeRepository.findByPostAndUser(post, user);
+            likeRepository.deleteByPostAndUser(post, user);
             like.cancel();
             return like;
         } else {
             Like like = new Like(user, post);
-            likeRepository.save(like);
-            return like;
+            return likeRepository.save(like);
         }
     }
-
     private boolean isAlreadyExistAnswerLike(Post post, User user){
-        return likeRepository.existsByPostAndUserAndLikeStatus(post, user, LikeStatus.ADD);
+        return likeRepository.existsByPostAndUser(post, user);
     }
 
 }
