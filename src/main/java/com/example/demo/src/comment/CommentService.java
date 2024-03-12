@@ -4,6 +4,8 @@ import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.comment.model.GetCommentRes;
+import com.example.demo.src.comment.model.PatchCommentReq;
+import com.example.demo.src.comment.model.PatchCommentRes;
 import com.example.demo.src.comment.model.PostCommentReq;
 import com.example.demo.src.comment.model.PostCommentRes;
 import com.example.demo.src.post.PostRepository;
@@ -38,6 +40,15 @@ public class CommentService {
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
         return new GetCommentRes(comment);
     }
+
+    public PatchCommentRes updateComment(Long commentId, PatchCommentReq patchCommentReq) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
+        comment.update(patchCommentReq.getContent());
+        return new PatchCommentRes(comment);
+    }
+
+
 
 
 

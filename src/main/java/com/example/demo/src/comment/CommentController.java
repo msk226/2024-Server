@@ -8,9 +8,11 @@ import com.example.demo.src.comment.model.PatchCommentReq;
 import com.example.demo.src.comment.model.PatchCommentRes;
 import com.example.demo.src.comment.model.PostCommentReq;
 import com.example.demo.src.comment.model.PostCommentRes;
+import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,11 +27,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentService commentService;
-
+    private final JwtService jwtService;
     // 댓글 작성
     @ResponseBody
     @PostMapping("")
     public BaseResponse<PostCommentRes> createComment(@RequestBody PostCommentReq postCommentReq){
+        jwtService.isUserValid(postCommentReq.getAuthorId());
         PostCommentRes postCommentRes = commentService.createComment(postCommentReq);
         return new BaseResponse<>(postCommentRes);
     }
@@ -50,8 +53,12 @@ public class CommentController {
 
 
     // 댓글 수정
+    @ResponseBody
+    @PatchMapping("/{commentId}")
     public BaseResponse<PatchCommentRes> updateComment(Long commentId, PatchCommentReq patchCommentReq) {
-        return null;
+        jwtService.isUserValid(patchCommentReq.getAuthorId());
+        PatchCommentRes patchCommentRes = commentService.updateComment(commentId, patchCommentReq);
+        return new BaseResponse<>(patchCommentRes);
     }
 
     // 댓글 무한 페이징

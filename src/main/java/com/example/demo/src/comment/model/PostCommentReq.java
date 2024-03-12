@@ -15,7 +15,7 @@ import lombok.Setter;
 public class PostCommentReq {
 
     String content;
-    Long userId;
+    Long authorId;
     Long postId;
 
     public Comment toEntity(PostCommentReq postCommentReq, User author, Post post) {

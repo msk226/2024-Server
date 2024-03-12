@@ -10,4 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatchCommentReq {
+    private String content;
+    private Long authorId;
+
+
 }
