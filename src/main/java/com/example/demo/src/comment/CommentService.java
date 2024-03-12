@@ -3,6 +3,7 @@ package com.example.demo.src.comment;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.comment.entity.Comment;
+import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.comment.model.PostCommentReq;
 import com.example.demo.src.comment.model.PostCommentRes;
 import com.example.demo.src.post.PostRepository;
@@ -31,6 +32,14 @@ public class CommentService {
         commentRepository.save(comment);
         return new PostCommentRes(comment);
     }
+
+    public GetCommentRes getComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
+        return new GetCommentRes(comment);
+    }
+
+
 
 
 }

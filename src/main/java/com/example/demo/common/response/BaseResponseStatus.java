@@ -38,6 +38,7 @@ public enum BaseResponseStatus {
     POST_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 게시물입니다."),
     NOT_MATCH_USER(false, HttpStatus.FORBIDDEN.value(), "작성자가 아닙니다."),
     REPORT_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 신고입니다."),
+    COMMENT_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 댓글입니다."),
 
     /**
      * 500 :  Database, Server 오류
