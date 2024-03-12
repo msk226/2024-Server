@@ -2,21 +2,28 @@ package com.example.demo.src.comment;
 
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.comment.entity.Comment;
+import com.example.demo.src.comment.model.GetCommentPreviewRes;
 import com.example.demo.src.comment.model.GetCommentReq;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.comment.model.PatchCommentReq;
 import com.example.demo.src.comment.model.PatchCommentRes;
 import com.example.demo.src.comment.model.PostCommentReq;
 import com.example.demo.src.comment.model.PostCommentRes;
+import com.example.demo.src.post.entity.Post;
+import com.example.demo.src.post.model.GetPostingPreviewRes;
 import com.example.demo.utils.JwtService;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -67,6 +74,13 @@ public class CommentController {
     }
 
     // 댓글 무한 페이징
-
+    @ResponseBody
+    @GetMapping("")
+    public BaseResponse<GetCommentPreviewRes> findCommentByPaging(
+        @RequestParam @Min(0) Integer page,
+        @RequestParam @Min(1) @Max(10) Integer size){
+        GetCommentPreviewRes getCommentPreviewRes = commentService.findAllBySearch(page, size);
+        return new BaseResponse<>(getCommentPreviewRes);
+    }
 
 }

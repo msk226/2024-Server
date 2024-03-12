@@ -3,6 +3,7 @@ package com.example.demo.src.comment;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.comment.entity.Comment;
+import com.example.demo.src.comment.model.GetCommentPreviewRes;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.comment.model.PatchCommentReq;
 import com.example.demo.src.comment.model.PatchCommentRes;
@@ -13,6 +14,8 @@ import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,9 +57,9 @@ public class CommentService {
         comment.softDelete();
     }
 
-
-
-
-
-
+    public GetCommentPreviewRes findAllBySearch(int page, int size) {
+        PageRequest request = PageRequest.of(page, size);
+        Page<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc(request);
+        return new GetCommentPreviewRes(comments);
+    }
 }
