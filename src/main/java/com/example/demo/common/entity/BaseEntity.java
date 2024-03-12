@@ -31,4 +31,8 @@ public class BaseEntity {
     public enum State {
         ACTIVE, INACTIVE;
     }
+
+    public void softDelete() {
+        this.state = State.INACTIVE;
+    }
 }

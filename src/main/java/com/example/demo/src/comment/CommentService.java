@@ -48,6 +48,12 @@ public class CommentService {
         return new PatchCommentRes(comment);
     }
 
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
+        comment.softDelete();
+    }
+
 
 
 

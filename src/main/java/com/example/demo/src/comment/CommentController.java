@@ -47,8 +47,13 @@ public class CommentController {
 
 
     // 댓글 삭제
-    public BaseResponse<String> deleteComment(Long commentId) {
-        return null;
+    @ResponseBody
+    @PatchMapping("/{commentId}/author/{authorId}")
+    public BaseResponse<String> deleteComment(Long commentId, Long authorId) {
+        jwtService.isUserValid(authorId);
+        commentService.deleteComment(commentId);
+        String message = "댓글이 삭제되었습니다.";
+        return new BaseResponse<>(message);
     }
 
 
