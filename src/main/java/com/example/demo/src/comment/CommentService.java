@@ -26,7 +26,7 @@ public class CommentService {
     private final PostRepository postRepository;
 
     public PostCommentRes createComment(PostCommentReq postCommentReq) {
-        User user = userRepository.findById(postCommentReq.getUserId())
+        User user = userRepository.findById(postCommentReq.getAuthorId())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
         Post post = postRepository.findById(postCommentReq.getPostId())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
