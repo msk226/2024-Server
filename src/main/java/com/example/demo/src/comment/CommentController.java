@@ -83,4 +83,15 @@ public class CommentController {
         return new BaseResponse<>(getCommentPreviewRes);
     }
 
+    // 특정 질문에 대한 댓글 전체 조회
+    @ResponseBody
+    @GetMapping("/posts/{postId}")
+    public BaseResponse<GetCommentPreviewRes> findCommentByPostId(
+        @PathVariable Long postId,
+        @RequestParam @Min(0) Integer page,
+        @RequestParam @Min(1) @Max(10) Integer size){
+        GetCommentPreviewRes getCommentPreviewRes = commentService.findAllBySearchByPostId(postId, page, size);
+        return new BaseResponse<>(getCommentPreviewRes);
+    }
+
 }

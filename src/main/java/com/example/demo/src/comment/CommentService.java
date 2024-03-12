@@ -62,4 +62,10 @@ public class CommentService {
         Page<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc(request);
         return new GetCommentPreviewRes(comments);
     }
+
+    public GetCommentPreviewRes findAllBySearchByPostId(Long postId, int page, int size) {
+        PageRequest request = PageRequest.of(page, size);
+        Page<Comment> comments = commentRepository.findAllByPostIdOrderByCreatedAtDesc(postId, request);
+        return new GetCommentPreviewRes(comments);
+    }
 }
