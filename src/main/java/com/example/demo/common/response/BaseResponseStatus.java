@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
     POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
     POST_TEST_EXISTS_MEMO(false,HttpStatus.BAD_REQUEST.value(),"중복된 메모입니다."),
     INVALID_USER_INFO(false, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 유저 정보입니다."),
+    NOT_FOUND_USER(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 유저입니다."),
 
     RESPONSE_ERROR(false, HttpStatus.NOT_FOUND.value(), "값을 불러오는데 실패하였습니다."),
 
@@ -39,6 +40,9 @@ public enum BaseResponseStatus {
     NOT_MATCH_USER(false, HttpStatus.FORBIDDEN.value(), "작성자가 아닙니다."),
     REPORT_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 신고입니다."),
     COMMENT_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 댓글입니다."),
+    NOT_MATCH_PAYMENT(false, HttpStatus.FORBIDDEN.value(), "결제자가 아닙니다."),
+    INVALID_PAYMENT(false, HttpStatus.BAD_REQUEST.value(), "결제 정보가 일치하지 않습니다."),
+    ALREADY_EXIST_PAYMENT(false, HttpStatus.BAD_REQUEST.value(), "이미 존재하는 결제입니다."),
 
     /**
      * 500 :  Database, Server 오류

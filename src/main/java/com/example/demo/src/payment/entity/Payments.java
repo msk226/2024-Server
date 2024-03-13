@@ -1,9 +1,9 @@
-package com.example.demo.src.post.entity;
+package com.example.demo.src.payment.entity;
 
-import com.example.demo.common.Constant.LikeStatus;
 import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.user.entity.User;
-import javax.persistence.CascadeType;
+import java.time.LocalDateTime;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,37 +25,32 @@ import org.hibernate.envers.Audited;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Getter
 @Audited
+@Getter
 @Entity // 필수, Class 를 Database Table화 해주는 것이다
-@Table(name = "LIKES")
-public class Like extends BaseEntity {
+@Table(name = "PAYMENT")
+public class Payments extends BaseEntity {
 
     @Id // PK를 의미하는 어노테이션
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Long impUid;
+
+    @Column(nullable = false)
+    private Long merchantUid;
+
+    @Column(nullable = false)
+    private Long paidAmount;
+
+    @Column(nullable = false)
+    private Date approvedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    private LikeStatus likeStatus;
-
-    public void cancel(){
-        this.likeStatus = LikeStatus.CANCEL;
-    }
-    public void add(){
-        this.likeStatus = LikeStatus.ADD;
-    }
-    public Like(User user, Post post) {
-        this.user = user;
-        this.post = post;
-        this.likeStatus = LikeStatus.ADD;
-    }
 
 }

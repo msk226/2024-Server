@@ -61,7 +61,10 @@ springdoc:
 
 jwt:
   secret-key: UwKYibQQgkW7g-*k.ap9kje-wxBHb9wdXoBT4vnt4P3sJWt-Nu  # JWT key. 수정해주세요
-
+imp:
+  code: ${IAP_CODE} # 아임포트 코드
+  api-key: ${IAP_API_KEY} # 아임포트 API 키
+  secret-key: ${IAP_SECRET_KEY} # 아임포트 시크릿 키
 ---
 spring:
   config:

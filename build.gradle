@@ -20,6 +20,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -62,7 +63,11 @@ dependencies {
     // Firebase
     implementation ('com.google.firebase:firebase-admin:8.0.0')
 
+    // iamport
+    implementation 'com.github.iamport:iamport-rest-client-java:0.2.23'
 
+    // DB history
+    implementation 'org.springframework.data:spring-data-envers'
 }
 
 test {

@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.envers.Audited;
 import org.springframework.data.domain.Page;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +27,7 @@ import org.springframework.data.domain.Page;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Getter
+@Audited
 @Entity // 필수, Class 를 Database Table화 해주는 것이다
 @Table(name = "REPORT")
 public class Report extends BaseEntity {

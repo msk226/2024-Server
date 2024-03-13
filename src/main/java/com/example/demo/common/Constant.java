@@ -1,6 +1,9 @@
 package com.example.demo.common;
 
+import java.math.BigDecimal;
+
 public class Constant {
+    public final static BigDecimal PRICE = BigDecimal.valueOf(9900);
     public enum SocialLoginType{
         GOOGLE,
         KAKAO,
@@ -37,6 +40,14 @@ public class Constant {
         EATING_DISORDERS,
         FRAUD_OR_FALSE_INFORMATION,
         DISLIKED_CONTENT
+    }
+
+    public enum PaymentState{
+        BEFORE_PAYMENT,
+        IN_PROGRESS,
+        COMPLETED,
+        CANCELED
+
     }
 
 
