@@ -5,6 +5,7 @@ import com.example.demo.common.Constant.UserGrade;
 import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.comment.entity.Comment;
+import com.example.demo.src.payment.entity.Subscribe;
 import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.report.entity.Report;
@@ -89,6 +90,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Subscribe> subscribes = new ArrayList<>();
 
     private LocalDateTime lastLoginAt;
 

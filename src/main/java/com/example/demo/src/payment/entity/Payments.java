@@ -4,6 +4,7 @@ import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.user.entity.User;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -51,6 +53,9 @@ public class Payments extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToOne(mappedBy = "payment", fetch = FetchType.LAZY)
+    private Subscribe subscribe;
 
 
 }
