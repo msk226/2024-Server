@@ -81,6 +81,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<GetUserRes> getUsersByEmail(String email) {
+        if (!userRepository.existsByEmailAndState(email, ACTIVE)) {
+            throw new BaseException(NOT_FIND_USER);
+        }
         List<GetUserRes> getUserResList = userRepository.findAllByEmailAndState(email, ACTIVE).stream()
                 .map(GetUserRes::new)
                 .collect(Collectors.toList());
@@ -103,8 +106,12 @@ public class UserService {
     }
 
     public PostLoginRes logIn(PostLoginReq postLoginReq) {
-        User user = userRepository.findByEmailAndState(postLoginReq.getEmail(), ACTIVE)
-                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        User user = userRepository.findByEmail(postLoginReq.getEmail())
+            .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
+        if (user.getState() != ACTIVE) {
+            throw new BaseException(NOT_ACITVE_USER);
+        }
 
         String encryptPwd;
         try {

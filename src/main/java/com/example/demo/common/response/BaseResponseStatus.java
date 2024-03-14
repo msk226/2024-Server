@@ -35,6 +35,7 @@ public enum BaseResponseStatus {
     INVALID_JWT(false, HttpStatus.UNAUTHORIZED.value(), "유효하지 않은 JWT입니다."),
     INVALID_USER_JWT(false,HttpStatus.FORBIDDEN.value(),"권한이 없는 유저의 접근입니다."),
     NOT_FIND_USER(false,HttpStatus.NOT_FOUND.value(),"일치하는 유저가 없습니다."),
+    NOT_ACITVE_USER(false,HttpStatus.FORBIDDEN.value(),"탈퇴한 유저입니다."),
     INVALID_OAUTH_TYPE(false, HttpStatus.BAD_REQUEST.value(), "알 수 없는 소셜 로그인 형식입니다."),
     POST_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 게시물입니다."),
     NOT_MATCH_USER(false, HttpStatus.FORBIDDEN.value(), "작성자가 아닙니다."),
