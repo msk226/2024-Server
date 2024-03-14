@@ -10,16 +10,23 @@ import com.google.firebase.cloud.StorageClient;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.persistence.Column;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.repository.init.ResourceReader;
 
 @Configuration
 public class FirebaseConfig {
 
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
-        FileInputStream serviceAccount = new FileInputStream("src/main/resources/serviceKey.json");
+        InputStream serviceAccount = resourceLoader.getResource("classpath:serviceKey.json").getInputStream();
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

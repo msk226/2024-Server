@@ -83,8 +83,14 @@ public class PaymentService {
         return new PostPaymentRes(payment);
     }
 
+    // 구독 조회
     public PostSubscribeRes findSubscribe(Long userId, Long paymentId) {
         return new PostSubscribeRes(subscribeRepository.findByUserIdAndPaymentId(userId, paymentId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_SUBSCRIBE)));
+    }
+
+    // 정기 결제 로직
+    public void createRegularPayment() {
+
     }
 
 

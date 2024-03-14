@@ -14,11 +14,11 @@ spring:
     init:
       platform: mysql
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER} # username
-    password: ${DB_PASSWORD} # password
-    # driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
-    driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
+    url: jdbc:mysql://52.78.26.174:3306/2024_Server
+    username: root # username
+    password: 52575167 # password
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
+    #driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
   OAuth2:
     google:
       url: https://accounts.google.com/o/oauth2/v2/auth
@@ -32,13 +32,6 @@ spring:
       callback-login-url: http://localhost:9000/app/users/auth/kakao/login/callback # 등록한 정보에 맞게 수정해주세요
    #   scope: profile, account_email # 등록한 정보에 맞게 수정해주세요
 
-ssh:
-  remote_jump_host: ${JUMP_HOST} # 원격서버에 접속할 점프서버
-  ssh_port: ${SSH_PORT}    # ssh 프로토콜 포트
-  user: ubuntu            # ssh 연결할 사용자 계정
-  private_key: ${PRIVATE_KEY}     # ssh 연결 시 사용할 개인키 파일 경로
-  database_port: ${DATABASE_PORT}    # 원격서버에 있는 db 포트
-  passphrase: ${PASSPHRASE}    # 개인키 암호화 키
 
 spring.sql.init.platform: mysql
 server:
@@ -71,7 +64,7 @@ spring:
     activate:
       on-profile: "prod"
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
       # create, update, create-drop, none 등의 옵션이 있습니다.
@@ -95,7 +88,7 @@ spring:
     activate:
       on-profile: "dev"
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
       naming:
