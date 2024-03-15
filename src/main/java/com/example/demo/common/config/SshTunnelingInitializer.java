@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 @Slf4j
-@Profile("common")
+@Profile("dev")
 @Component
 @ConfigurationProperties(prefix = "ssh")
 @Validated
