@@ -13,6 +13,7 @@ import com.example.demo.src.comment.model.PostCommentRes;
 import com.example.demo.utils.JwtService;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -80,8 +81,8 @@ public class CommentController {
     @ResponseBody
     @GetMapping("")
     public BaseResponse<GetCommentPreviewRes> findCommentByPaging(
-        @RequestParam @Min(0) Integer page,
-        @RequestParam @Min(1) @Max(10) Integer size){
+        @RequestParam @Min(0) @NotNull(message = "페이지 값은 필수 입력 사항입니다.") Integer page,
+        @RequestParam @Min(1) @Max(10) @NotNull(message = "사이즈 값은 필수 입력 사항입니다.") Integer size){
         GetCommentPreviewRes getCommentPreviewRes = commentService.findAllBySearch(page, size);
         return new BaseResponse<>(getCommentPreviewRes);
     }
@@ -91,8 +92,8 @@ public class CommentController {
     @GetMapping("/posts/{postId}")
     public BaseResponse<GetCommentPreviewRes> findCommentByPostId(
         @PathVariable @ExistPost Long postId,
-        @RequestParam @Min(0) Integer page,
-        @RequestParam @Min(1) @Max(10) Integer size){
+        @RequestParam @Min(0) @NotNull(message = "페이지 값은 필수 입력 사항입니다.") Integer page,
+        @RequestParam @Min(1) @Max(10) @NotNull(message = "사이즈 값은 필수 입력 사항입니다.") Integer size){
         GetCommentPreviewRes getCommentPreviewRes = commentService.findAllBySearchByPostId(postId, page, size);
         return new BaseResponse<>(getCommentPreviewRes);
     }

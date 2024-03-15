@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -101,8 +102,8 @@ public class PostController {
     @ResponseBody
     @GetMapping("")
     public BaseResponse<GetPostingPreviewRes> findPostByPaging(
-        @RequestParam @Min(0) Integer page,
-        @RequestParam @Min(1) @Max(10) Integer size){
+        @RequestParam @Min(0) @NotNull(message = "페이지 값은 필수 입력 사항입니다.") Integer page,
+        @RequestParam @Min(1) @Max(10) @NotNull(message = "사이즈 값은 필수 입력 사항입니다.") Integer size){
         Page<Post> posts = postService.findAllBySearch(page, size);
         return new BaseResponse<>(new GetPostingPreviewRes(posts));
     }
