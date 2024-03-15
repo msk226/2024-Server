@@ -32,7 +32,7 @@ public class ImageController {
     @PostMapping("")
     @Operation(
         summary = "이미지 업로드 API"
-        , description = "# 이미지 업로드 API 입니다. 이미지의 갯수는 10개 까지 가능 합니다. \n."
+        , description = "# 이미지 업로드 API 입니다. 이미지의 갯수는 10개 까지 가능 합니다. 동영상 업로드 기능은 추후 지원 예정 입니다. \n."
         + "이미지 업로드 성공 시, 이미지의 URL을 반환 합니다."
     )
     public BaseResponse<PostImagesRes> uploadImage(@RequestParam("files") List<MultipartFile> files) throws IOException {
