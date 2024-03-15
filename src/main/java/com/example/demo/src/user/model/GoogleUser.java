@@ -21,6 +21,7 @@ public class GoogleUser {
     public String picture;
     public String locale;
 
+
     public User toEntity() {
         return User.builder()
                 .email(this.email)

@@ -81,6 +81,7 @@ public class PostUserReq {
                 .userStatus(UserStatus.정상)
                 .lastLoginAt(LocalDateTime.now())
                 .consentRenewalDate(LocalDateTime.now())
+                .socialLoginType(SocialLoginType.NORMAL)
                 .build();
     }
 }

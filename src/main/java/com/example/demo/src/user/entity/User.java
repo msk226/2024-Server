@@ -131,4 +131,8 @@ public class User extends BaseEntity {
         this.state = State.INACTIVE;
     }
 
+    public void updateLastLoginAt(){this.lastLoginAt = LocalDateTime.now();}
+
+    public void setSocialLoginType(SocialLoginType socialLoginType) {this.socialLoginType = socialLoginType;}
+
 }

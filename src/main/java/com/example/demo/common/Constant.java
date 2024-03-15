@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Constant {
     public final static BigDecimal PRICE = BigDecimal.valueOf(9900);
     public enum SocialLoginType{
+        NORMAL,
         GOOGLE,
         KAKAO,
         NAVER

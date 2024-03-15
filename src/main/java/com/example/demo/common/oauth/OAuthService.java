@@ -69,7 +69,7 @@ public class OAuthService {
                     return getSocialOAuthRes;
                 }else { // user가 DB에 없다면, 회원가입 진행
                     // 유저 정보 저장
-                    PostUserRes postUserRes = userService.createOAuthUser(googleUser.toEntity());
+                    PostUserRes postUserRes = userService.createOAuthUser(googleUser.toEntity(), socialLoginType);
                     GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(postUserRes.getJwt(), postUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
                     return getSocialOAuthRes;
                 }
@@ -86,7 +86,7 @@ public class OAuthService {
                     GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(jwtToken, getUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
                     return getSocialOAuthRes;
                 }else{
-                    PostUserRes postUserRes = userService.createOAuthUser(kaKaoUser.toEntity());
+                    PostUserRes postUserRes = userService.createOAuthUser(kaKaoUser.toEntity(), socialLoginType);
                     GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(postUserRes.getJwt(), postUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
                     return getSocialOAuthRes;
                 }

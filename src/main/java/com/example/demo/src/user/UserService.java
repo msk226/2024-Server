@@ -2,6 +2,7 @@ package com.example.demo.src.user;
 
 
 
+import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.user.entity.User;
@@ -50,8 +51,9 @@ public class UserService {
 
     }
 
-    public PostUserRes createOAuthUser(User user) {
+    public PostUserRes createOAuthUser(User user, SocialLoginType socialLoginType) {
         User saveUser = userRepository.save(user);
+        saveUser.setSocialLoginType(socialLoginType);
 
         // JWT 발급
         String jwtToken = jwtService.createJwt(saveUser.getId());
