@@ -6,6 +6,7 @@ import com.example.demo.common.oauth.OAuthService;
 import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.utils.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.exceptions.BaseException;
@@ -202,7 +203,8 @@ public class UserController {
         " SocialLoginType은 `GOOGLE`, `NAVER`, `KAKAO` 중 하나를 입력하세요. "
     )
     public BaseResponse<GetSocialOAuthRes> socialLoginCallback(
-            @PathVariable(name = "socialLoginType") String socialLoginPath,
+
+            @PathVariable(name = "socialLoginType")  String socialLoginPath,
             @RequestParam(name = "code") String code) throws IOException, BaseException{
         log.info(">> 소셜 로그인 API 서버로부터 받은 code : {}", code);
         SocialLoginType socialLoginType = SocialLoginType.valueOf(socialLoginPath.toUpperCase());

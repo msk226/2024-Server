@@ -12,8 +12,4 @@ import lombok.Setter;
 public class PostUserRes {
     private Long id;
     private String jwt;
-
-    public PostUserRes(Long id) {
-        this.id = id;
-    }
 }

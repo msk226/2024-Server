@@ -95,7 +95,7 @@ public class PostController {
     @ResponseBody
     @GetMapping("/{postId}")
     @Operation(
-        summary = "게시글 작성 API"
+        summary = "특정 게시글 조회 API"
         , description = "# `Path Variable`로 조회할 게시글의 `postId`를 입력하세요.")
     public BaseResponse<GetPostingRes> getPost(@PathVariable("postId") @ExistPost Long postId){
         GetPostingRes getPostingRes = postService.getPost(postId);
@@ -106,7 +106,7 @@ public class PostController {
     @ResponseBody
     @PostMapping("/{postId}/users/{userId}/like")
     @Operation(
-        summary = "게시글 작성 API"
+        summary = "게시글 좋아요 API"
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 좋아요를 누를 게시글의 `postId`와 `userId`를 입력하세요."
         , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
     )
@@ -120,7 +120,7 @@ public class PostController {
     @ResponseBody
     @GetMapping("")
     @Operation(
-        summary = "게시글 작성 API"
+        summary = "게시글 무한 스크롤 API"
         , description = "# `Request Param`으로 페이지와 사이즈를 입력하세요."
     )
     public BaseResponse<GetPostingPreviewRes> findPostByPaging(

@@ -47,7 +47,7 @@ public class UserService {
         }
 
         User saveUser = userRepository.save(postUserReq.toEntity());
-        return new PostUserRes(saveUser.getId());
+        return new PostUserRes(saveUser.getId(), jwtService.createJwt(saveUser.getId()));
 
     }
 
