@@ -5,6 +5,7 @@ import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.image.model.PostImagesRes;
 import java.io.IOException;
 import java.util.List;
+import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

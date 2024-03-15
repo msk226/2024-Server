@@ -50,6 +50,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_PAYMENT(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 결제입니다."),
     NOT_FOUND_SUBSCRIBE(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 구독입니다."),
     REPORT_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "신고 ID를 입력해주세요."),
+    COMMENT_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "댓글 ID를 입력해주세요."),
 
     /**
      * 500 :  Database, Server 오류

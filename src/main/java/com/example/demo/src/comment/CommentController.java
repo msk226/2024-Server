@@ -1,6 +1,9 @@
 package com.example.demo.src.comment;
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.common.validation.annotation.ExistComment;
+import com.example.demo.common.validation.annotation.ExistPost;
+import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.comment.model.GetCommentPreviewRes;
 import com.example.demo.src.comment.model.GetCommentRes;
 import com.example.demo.src.comment.model.PatchCommentReq;
@@ -43,7 +46,7 @@ public class CommentController {
     // 특정 댓글 조회 -> 이미 삭제된 댓글은 조회되지 않도록
     @ResponseBody
     @GetMapping("/{commentId}")
-    public BaseResponse<GetCommentRes> getComments(@PathVariable Long commentId){
+    public BaseResponse<GetCommentRes> getComments(@PathVariable @ExistComment Long commentId){
         GetCommentRes getCommentRes = commentService.getComment(commentId);
         return new BaseResponse<>(getCommentRes);
     }
@@ -52,7 +55,9 @@ public class CommentController {
     // 댓글 삭제 -> 이미 삭제된 댓글은 삭제되지 않도록
     @ResponseBody
     @PatchMapping("/{commentId}/author/{authorId}")
-    public BaseResponse<String> deleteComment(@PathVariable Long commentId, @PathVariable Long authorId) {
+    public BaseResponse<String> deleteComment(
+            @PathVariable @ExistComment Long commentId,
+            @PathVariable @ExistUser Long authorId) {
         jwtService.isUserValid(authorId);
         commentService.deleteComment(commentId);
         String message = "댓글이 삭제되었습니다.";
@@ -63,7 +68,7 @@ public class CommentController {
     // 댓글 수정 -> 이미 삭제된 댓글은 수정되지 않도록
     @ResponseBody
     @PatchMapping("/{commentId}")
-    public BaseResponse<PatchCommentRes> updateComment(@PathVariable Long commentId, @RequestBody PatchCommentReq patchCommentReq) {
+    public BaseResponse<PatchCommentRes> updateComment(@PathVariable @ExistComment  Long commentId, @RequestBody PatchCommentReq patchCommentReq) {
         //jwtService.isUserValid(patchCommentReq.getAuthorId());
         PatchCommentRes patchCommentRes = commentService.updateComment(commentId, patchCommentReq);
         return new BaseResponse<>(patchCommentRes);
@@ -83,7 +88,7 @@ public class CommentController {
     @ResponseBody
     @GetMapping("/posts/{postId}")
     public BaseResponse<GetCommentPreviewRes> findCommentByPostId(
-        @PathVariable Long postId,
+        @PathVariable @ExistPost Long postId,
         @RequestParam @Min(0) Integer page,
         @RequestParam @Min(1) @Max(10) Integer size){
         GetCommentPreviewRes getCommentPreviewRes = commentService.findAllBySearchByPostId(postId, page, size);
