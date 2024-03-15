@@ -34,7 +34,12 @@ public class ReportService {
     }
 
     @Transactional(readOnly = true)
-    public Report getReport(Long reportId) {
+    public Report getReport(Long reportId, Long adminId) {
+        User user = userRepository.findById(adminId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
+        if (!user.isAdmin()) {
+            throw new BaseException(BaseResponseStatus.NO_AUTHORITY);
+        }
         return reportRepository.findById(reportId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.REPORT_NOT_FOUND));
     }

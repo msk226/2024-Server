@@ -2,10 +2,14 @@ package com.example.demo.src.report;
 
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.validation.annotation.ExistReport;
+import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.report.model.GetReportRes;
 import com.example.demo.src.report.model.PostReportReq;
 import com.example.demo.src.report.model.PostReportRes;
+import com.example.demo.utils.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,11 +29,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
     private final ReportService reportService;
+    private final JwtService jwtService;
 
     // 게시물 신고
     @ResponseBody
     @PostMapping("")
+    @Operation(
+        summary = "게시물에 대한 신고 작성 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 신고할 내용을 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<PostReportRes> createReport(@RequestBody PostReportReq postReportReq) {
+        jwtService.isUserValid(postReportReq.getUserId());
         Report report = reportService.createReport(postReportReq);
         return new BaseResponse<>(new PostReportRes(report));
     }
@@ -37,9 +48,13 @@ public class ReportController {
 
     // 게시물 신고 조회 (관리자용)
     @ResponseBody
-    @GetMapping("/{reportId}")
-    public BaseResponse<GetReportRes> getReport(@PathVariable @ExistReport Long reportId) {
-        Report report = reportService.getReport(reportId);
+    @GetMapping("/{reportId}/admin/{adminId}")
+    @Operation(
+        summary = "# !관리자용! 게시물 신고 조회 API"
+        , description = "# 관리자만 이용 가능합니다. `Path Variable`로 조회할 `reportId`를 입력 하세요."
+    )
+    public BaseResponse<GetReportRes> getReport(@PathVariable @ExistReport Long reportId, @PathVariable @ExistUser Long adminId) {
+        Report report = reportService.getReport(reportId, adminId);
         return new BaseResponse<>(new GetReportRes(report));
     }
 }

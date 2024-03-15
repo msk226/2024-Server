@@ -166,4 +166,8 @@ public class User extends BaseEntity {
 
     public void setSocialLoginType(SocialLoginType socialLoginType) {this.socialLoginType = socialLoginType;}
 
+    public boolean isAdmin() {
+        return this.userGrade == UserGrade.ADMIN;
+    }
+
 }
