@@ -15,7 +15,6 @@ REST API를 처리하는 SpringBoot 프로젝트
   - `exceptions`: 예외처리 관리 폴더
   - `oauth`: Oauth 인증에 필요한 파일 관리 폴더
   - `response`: baseResponse를 관리하는 폴더
-  - `secret`: 보안과 관련된 파일 관리 폴더(차후 환경 변수로 분리 추천)
   - `Constant`: 상수와 관련된 내용  
 
 
@@ -77,18 +76,6 @@ api-server-spring-boot
         | Secret.java // jwt 암호키 보관 클래스
       | Constant // 상수 보관 클래스
     > src
-      > test
-        > entity
-          | Comment.java // Comment Entity
-          | Memo.java // Memo Entity
-        > model
-          | GetMemoDto.java
-          | MemoDto.java
-          | PostCommentDto.java
-        | TestController.java // Memo API Controller
-        | TestService.java // Memo API Service
-        | MemoRepository.java // Memo Spring Data JPA
-        | CommentRepository.java // Comment Spring Data JPA
       > user
         > entity
           | User.java // User Entity
@@ -103,7 +90,64 @@ api-server-spring-boot
           | PostUserRes.java 
         | UserController.java
         | UserService.java
-        | UserRepository.java
+        | UserRepository.java        
+      > post
+         > entity
+          | Post.java // Post Entity
+          | Like.java // Like Entity
+         > model
+          | GetPostingPreviewRes.java 
+          | GetPostingRes.java
+          | PatchPostingReq.java
+          | PostPostingReq.java
+          | PostPostingRes.java
+          | PostPostingLikeRes.java
+        | PostController.java
+        | PostService.java
+        | PostRepository.java
+        | LikeRepository.java
+      > payment
+         > entity
+           | Payment.java // Payment Entity
+           | Subscribe.java // Subscribe Entity
+         > model
+           | PostPaymentRes.java
+           | PostSubscribeRes.java
+         | PaymentController.java
+         | PaymentService.java
+         | PaymentRepository.java
+         | SubscribeRepository.java         
+      > image
+          > entity
+            | Image.java // Image Entity
+          > model
+            | PostImageRes.java
+          | ImageController.java
+          | ImageService.java
+          | ImageRepository.java          
+      > report 
+          > entity
+            | Report.java // Report Entity
+          > model
+            | PostReportRes.java
+            | PostReportReq.java
+            | GetReportRes.java
+          | ReportController.java
+          | ReportService.java
+          | ReportRepository.java
+       > comment
+          > entity
+            | Comment.java // Comment Entity
+          > model
+            | GetCommentPreviewRes.java
+            | GetCommentRes.java
+            | PatchCommentReq.java
+            | PatchCommentRes.java
+            | PostCommentReq.java
+            | PostCommentRes.java
+          | CommentController.java
+          | CommentService.java
+          | CommentRepository.java
     > utils
       | JwtService.java // JWT 관련 클래스
       | SHA256.java // 암호화 알고리즘 클래스
