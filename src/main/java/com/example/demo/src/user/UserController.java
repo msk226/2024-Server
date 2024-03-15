@@ -5,6 +5,8 @@ import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.oauth.OAuthService;
 import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.utils.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
@@ -40,6 +42,9 @@ public class UserController {
     // Body
     @ResponseBody
     @PostMapping("")
+    @Operation(
+        summary = "회원 가입 API"
+        , description = "# 회원 가입 API 입니다. \n " + "## 이메일, 비밀번호, 이름 등 개인 정보를 입력하세요.")
     public BaseResponse<PostUserRes> createUser(@RequestBody PostUserReq postUserReq) {
         if(postUserReq.getEmail() == null){
             return new BaseResponse<>(USERS_EMPTY_EMAIL);
@@ -67,6 +72,9 @@ public class UserController {
     //Query String
     @ResponseBody
     @GetMapping("") // (GET) 127.0.0.1:9000/app/users
+    @Operation(
+        summary = "회원 정보 조회 API by Email"
+        , description = "# `Param`으로 조회할 회원의 email을 입력하세요. \n")
     public BaseResponse<List<GetUserRes>> getUsers(@RequestParam(required = false) String Email) {
         if(Email == null){
             List<GetUserRes> getUsersRes = userService.getUsers();
@@ -85,6 +93,9 @@ public class UserController {
     // Path-variable
     @ResponseBody
     @GetMapping("/{userId}") // (GET) 127.0.0.1:9000/app/users/:userId
+    @Operation(
+        summary = "회원 정보 조회 API by userId"
+        , description = "# `Path Variable`으로 조회할 회원의 ID을 입력하세요. \n")
     public BaseResponse<GetUserRes> getUser(@PathVariable("userId") Long userId) {
         GetUserRes getUserRes = userService.getUser(userId);
         return new BaseResponse<>(getUserRes);
@@ -99,6 +110,11 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/{userId}")
+    @Operation(
+        summary = "회원 정보 수정 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하고, `Request body`에 수정할 정보를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<String> modifyUserName(@PathVariable("userId") Long userId, @RequestBody PatchUserReq patchUserReq){
         Long jwtUserId = jwtService.getUserId();
         if(jwtUserId != userId){
@@ -117,6 +133,11 @@ public class UserController {
      */
     @ResponseBody
     @DeleteMapping("/{userId}")
+    @Operation(
+        summary = "회원 정보 삭제 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<String> deleteUser(@PathVariable("userId") Long userId){
         Long jwtUserId = jwtService.getUserId();
         if(jwtUserId != userId){
@@ -136,6 +157,10 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping("/logIn")
+    @Operation(
+        summary = "로그인 API"
+        , description = "# 로그인 API입니다. `Request Body`로 `email`와 `password`을 입력 하세요."
+    )
     public BaseResponse<PostLoginRes> logIn(@RequestBody PostLoginReq postLoginReq){
         // TODO: 로그인 값들에 대한 형식적인 validatin 처리해주셔야합니다!
         // TODO: 유저의 status ex) 비활성화된 유저, 탈퇴한 유저 등을 관리해주고 있다면 해당 부분에 대한 validation 처리도 해주셔야합니다.
@@ -150,6 +175,11 @@ public class UserController {
      * [GET] /app/users/auth/:socialLoginType/login
      * @return void
      */
+    @Operation(
+        summary = "소셜 로그인 리다이렉트 API"
+        , description = "# 유저 소셜 가입, 로그인 인증 으로 리다이렉트 해주는 API입니다. `Path Variable`로 소셜 로그인 타입을 입력 하세요. \n" +
+        " SocialLoginType은 `GOOGLE`, `NAVER`, `KAKAO` 중 하나를 입력하세요. "
+    )
     @GetMapping("/auth/{socialLoginType}/login")
     public void socialLoginRedirect(@PathVariable(name="socialLoginType") String SocialLoginPath) throws IOException {
         SocialLoginType socialLoginType= SocialLoginType.valueOf(SocialLoginPath.toUpperCase());
@@ -165,6 +195,12 @@ public class UserController {
      */
     @ResponseBody
     @GetMapping(value = "/auth/{socialLoginType}/login/callback")
+    @Operation(
+        summary = "Social Login API Server 요청에 의한 callback 을 처리 하는 API"
+        , description = "# Social Login API Server 요청에 의한 callback 을 처리 하는 API입니다. \n "
+        + "`Path Variable`로 소셜 로그인 타입과, `Param`으로 소셜 로그인 API 서버로부터 받은 코드를 입력 하세요.. \n" +
+        " SocialLoginType은 `GOOGLE`, `NAVER`, `KAKAO` 중 하나를 입력하세요. "
+    )
     public BaseResponse<GetSocialOAuthRes> socialLoginCallback(
             @PathVariable(name = "socialLoginType") String socialLoginPath,
             @RequestParam(name = "code") String code) throws IOException, BaseException{
@@ -181,6 +217,11 @@ public class UserController {
      */
     @ResponseBody
     @PatchMapping("/{userId}/terms")
+    @Operation(
+        summary = "개인 정보 동의 내역 갱신 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하고, `Request body`에 동의 관련 정보를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<PostUserAgreeRes> modifyUserAgree(@PathVariable("userId") Long userId, @RequestBody PostUserAgreeReq postUserAgreeReq){
         Long jwtUserId = jwtService.getUserId();
         if(jwtUserId != userId){
@@ -198,6 +239,10 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping("/{userId}/info")
+    @Operation(
+        summary = "소셜 로그인 시, 개인 정보 입력 API"
+        , description = "# Path Variable`로 `userId`를 입력 하고, `Request body`에 회원 개인 정보를 입력하세요."
+    )
     public BaseResponse<String> UserInfo(@PathVariable @ExistUser Long userId, @RequestBody PostUserInfoReq postUserInfoReq){
         userService.setUserInfo(userId, postUserInfoReq);
         String result = "입력이 완료되었습니다.";
