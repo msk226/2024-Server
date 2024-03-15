@@ -20,6 +20,7 @@ import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 @RestController
 @RequestMapping("/app/users")
 public class UserController {
