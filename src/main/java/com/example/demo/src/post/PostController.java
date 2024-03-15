@@ -45,7 +45,11 @@ public class PostController {
     // 게시글 작성
     @ResponseBody
     @PostMapping("")
-    @Operation( security = @SecurityRequirement(name = "jwtToken"))
+    @Operation(
+        summary = "게시글 작성 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 작성할 게시글에 대한 정보를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<PostPostingRes> createPost(@RequestBody PostPostingReq postPostingReq) {
         jwtService.isUserValid(postPostingReq.getUserId());
         PostPostingRes postPostingRes = postService.createPost(postPostingReq);
@@ -55,7 +59,11 @@ public class PostController {
     // 게시글 수정
     @ResponseBody
     @PatchMapping("/{postId}")
-    @Operation( security = @SecurityRequirement(name = "jwtToken"))
+    @Operation(
+        summary = "게시글 수정 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 수정할 게시글에 대한 정보를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<String> updatePost(@RequestBody PatchPostingReq patchPostingReq,
                                            @PathVariable("postId") @ExistPost Long postId){
         jwtService.isUserValid(patchPostingReq.getUserId());
@@ -69,7 +77,11 @@ public class PostController {
 
     @ResponseBody
     @PatchMapping("/{postId}/users/{userId}/delete")
-    @Operation( security = @SecurityRequirement(name = "jwtToken"))
+    @Operation(
+        summary = "게시글 삭제 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 삭제할 게시글의 `postId`와 `userId`를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<String> deletePost(
             @PathVariable("postId") @ExistPost Long postId,
             @PathVariable("userId") @ExistUser Long userId){
@@ -82,7 +94,9 @@ public class PostController {
     // 특정 게시글 조회
     @ResponseBody
     @GetMapping("/{postId}")
-    @Operation( security = @SecurityRequirement(name = "jwtToken"))
+    @Operation(
+        summary = "게시글 작성 API"
+        , description = "# `Path Variable`로 조회할 게시글의 `postId`를 입력하세요.")
     public BaseResponse<GetPostingRes> getPost(@PathVariable("postId") @ExistPost Long postId){
         GetPostingRes getPostingRes = postService.getPost(postId);
         return new BaseResponse<>(getPostingRes);
@@ -91,7 +105,11 @@ public class PostController {
     // 게시글 좋아요 기능
     @ResponseBody
     @PostMapping("/{postId}/users/{userId}/like")
-    @Operation( security = @SecurityRequirement(name = "jwtToken"))
+    @Operation(
+        summary = "게시글 작성 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 좋아요를 누를 게시글의 `postId`와 `userId`를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<PostPostingLikeRes> addAndCancelLike(@PathVariable @ExistPost Long postId, @PathVariable @ExistUser Long userId){
         jwtService.isUserValid(userId);
         Like like = postService.addAndCancelLike(postId, userId);
@@ -101,6 +119,10 @@ public class PostController {
     // 게시글 무한 스크롤
     @ResponseBody
     @GetMapping("")
+    @Operation(
+        summary = "게시글 작성 API"
+        , description = "# `Request Param`으로 페이지와 사이즈를 입력하세요."
+    )
     public BaseResponse<GetPostingPreviewRes> findPostByPaging(
         @RequestParam @Min(0) @NotNull(message = "페이지 값은 필수 입력 사항입니다.") Integer page,
         @RequestParam @Min(1) @Max(10) @NotNull(message = "사이즈 값은 필수 입력 사항입니다.") Integer size){
