@@ -52,6 +52,7 @@ public enum BaseResponseStatus {
     REPORT_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "신고 ID를 입력해주세요."),
     COMMENT_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "댓글 ID를 입력해주세요."),
     INVALID_PATCH_USER_REQ(false, HttpStatus.BAD_REQUEST.value(), "유저 수정 정보가 잘못되었습니다."),
+    INVALID_POST_USER_INFO_REQ(false, HttpStatus.BAD_REQUEST.value(), "유저 정보가 잘못되었습니다."),
 
     /**
      * 500 :  Database, Server 오류

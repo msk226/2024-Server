@@ -73,6 +73,13 @@ public class UserService {
         user.deleteUser();
     }
 
+    public void setUserInfo(Long userId, PostUserInfoReq postUserInfoReq){
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
+        user.updateUserInfo(postUserInfoReq);
+    }
+
     @Transactional(readOnly = true)
     public List<GetUserRes> getUsers() {
         List<GetUserRes> getUserResList = userRepository.findAllByState(ACTIVE).stream()

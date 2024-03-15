@@ -3,6 +3,7 @@ package com.example.demo.src.user;
 
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.oauth.OAuthService;
+import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.utils.JwtService;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.exceptions.BaseException;
@@ -176,7 +177,7 @@ public class UserController {
     /**  개인 정보 동의 내역 갱신 API
      * [PATCH] /app/users/:userId/terms
      * @param userId : 갱신 할 유저의 아이디
-     * @return BaseResponse<String>
+     * @return BaseResponse<PostUserAgreeRes>
      */
     @ResponseBody
     @PatchMapping("/{userId}/terms")
@@ -189,5 +190,18 @@ public class UserController {
         return new BaseResponse<>(postUserAgreeRes);
     }
 
+    /**  소셜 로그인 시, 개인 정보 입력 API
+     * [POST] /app/users/:userId/info
+     * @param userId : 갱신 할 유저의 아이디
+     * @Param postUserInfoReq : 갱신 할 유저의 정보
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/{userId}/info")
+    public BaseResponse<String> UserInfo(@PathVariable @ExistUser Long userId, @RequestBody PostUserInfoReq postUserInfoReq){
+        userService.setUserInfo(userId, postUserInfoReq);
+        String result = "입력이 완료되었습니다.";
+        return new BaseResponse<>(result);
+    }
 
 }

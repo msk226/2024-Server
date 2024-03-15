@@ -13,6 +13,7 @@ import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserAgreeReq;
+import com.example.demo.src.user.model.PostUserInfoReq;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,21 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLoginType socialLoginType;
 
+
+    public void updateUserInfo(PostUserInfoReq postUserInfoReq){
+        if (postUserInfoReq == null) {
+            throw new BaseException(BaseResponseStatus.INVALID_POST_USER_INFO_REQ);
+        }
+        this.password = postUserInfoReq.getPassword();
+        this.name = postUserInfoReq.getName();
+        this.phoneNum = postUserInfoReq.getPhoneNum();
+        this.birthYear = postUserInfoReq.getBirthYear();
+        this.birthMonth = postUserInfoReq.getBirthMonth();
+        this.birthDay = postUserInfoReq.getBirthDay();
+        this.termsOfUseAgree = postUserInfoReq.isTermsOfUseAgree();
+        this.termsDataPolicyAgree = postUserInfoReq.isTermsDataPolicyAgree();
+        this.termsLocationAgree = postUserInfoReq.isTermsLocationAgree();
+    }
     public void updateUser(PatchUserReq patchUserReq){
         if (patchUserReq == null) {
             throw new BaseException(BaseResponseStatus.INVALID_PATCH_USER_REQ);
