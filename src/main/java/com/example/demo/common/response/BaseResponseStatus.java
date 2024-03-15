@@ -51,6 +51,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_SUBSCRIBE(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 구독입니다."),
     REPORT_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "신고 ID를 입력해주세요."),
     COMMENT_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "댓글 ID를 입력해주세요."),
+    INVALID_PATCH_USER_REQ(false, HttpStatus.BAD_REQUEST.value(), "유저 수정 정보가 잘못되었습니다."),
 
     /**
      * 500 :  Database, Server 오류

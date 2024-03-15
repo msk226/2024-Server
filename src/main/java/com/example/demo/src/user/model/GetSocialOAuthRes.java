@@ -1,5 +1,6 @@
 package com.example.demo.src.user.model;
 
+import com.example.demo.common.Constant.SocialLoginType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class GetSocialOAuthRes {
     private Long userId;
     private String accessToken;
     private String tokenType;
+    private SocialLoginType socialLoginType;
 }

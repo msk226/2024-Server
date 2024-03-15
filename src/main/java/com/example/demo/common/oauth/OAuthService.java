@@ -65,12 +65,12 @@ public class OAuthService {
                     String jwtToken = jwtService.createJwt(getUserRes.getId());
 
                     //액세스 토큰과 jwtToken, 이외 정보들이 담긴 자바 객체를 다시 전송한다.
-                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(jwtToken, getUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
+                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(jwtToken, getUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type(), socialLoginType);
                     return getSocialOAuthRes;
                 }else { // user가 DB에 없다면, 회원가입 진행
                     // 유저 정보 저장
                     PostUserRes postUserRes = userService.createOAuthUser(googleUser.toEntity(), socialLoginType);
-                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(postUserRes.getJwt(), postUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
+                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(postUserRes.getJwt(), postUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type(), socialLoginType);
                     return getSocialOAuthRes;
                 }
             }
@@ -83,11 +83,11 @@ public class OAuthService {
                 if (userService.checkUserByEmail(kaKaoUser.getKakao_account().getEmail())){
                     GetUserRes getUserRes = userService.getUserByEmail(kaKaoUser.getKakao_account().getEmail());
                     String jwtToken = jwtService.createJwt(getUserRes.getId());
-                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(jwtToken, getUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
+                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(jwtToken, getUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type(), socialLoginType);
                     return getSocialOAuthRes;
                 }else{
                     PostUserRes postUserRes = userService.createOAuthUser(kaKaoUser.toEntity(), socialLoginType);
-                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(postUserRes.getJwt(), postUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type());
+                    GetSocialOAuthRes getSocialOAuthRes = new GetSocialOAuthRes(postUserRes.getJwt(), postUserRes.getId(), oAuthToken.getAccess_token(), oAuthToken.getToken_type(), socialLoginType);
                     return getSocialOAuthRes;
                 }
 
