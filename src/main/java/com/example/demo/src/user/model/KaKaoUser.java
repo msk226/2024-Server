@@ -51,10 +51,18 @@ public class KaKaoUser {
                 .name(this.properties.nickname)
                 .isOAuth(true)
                 .profileImageUrl(this.properties.profile_image)
-                .socialLoginType(SocialLoginType.KAKAO)
-                .userGrade(UserGrade.USER)
-                .lastLoginAt(LocalDateTime.now())
                 .userStatus(UserStatus.정상)
+                .termsOfUseAgree(false)
+                .termsLocationAgree(false)
+                .termsDataPolicyAgree(false)
+                .userGrade(UserGrade.USER)
+                .userStatus(UserStatus.정상)
+                .lastLoginAt(LocalDateTime.now())
+                .phoneNum("NONE")
+                .birthYear(0)
+                .birthMonth(0)
+                .birthDay(0)
+                .socialLoginType(SocialLoginType.GOOGLE)
                 .build();
     }
 }

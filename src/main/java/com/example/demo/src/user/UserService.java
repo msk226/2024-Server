@@ -134,6 +134,7 @@ public class UserService {
 
     public GetUserRes getUserByEmail(String email) {
         User user = userRepository.findByEmailAndState(email, ACTIVE).orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        user.updateLastLoginAt();
         return new GetUserRes(user);
     }
 

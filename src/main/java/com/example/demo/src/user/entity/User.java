@@ -17,6 +17,7 @@ import java.util.List;
 import lombok.*;
 
 import javax.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.envers.Audited;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -53,21 +54,27 @@ public class User extends BaseEntity {
     private String profileImageUrl;
 
     @Column(nullable = false)
+    @ColumnDefault("0")
     private Integer birthYear;
 
     @Column(nullable = false)
+    @ColumnDefault("0")
     private Integer birthMonth;
 
     @Column(nullable = false)
+    @ColumnDefault("0")
     private Integer birthDay;
 
     @Column(nullable = false)
+    @ColumnDefault("false")
     private boolean termsOfUseAgree;
 
     @Column(nullable = false)
+    @ColumnDefault("false")
     private boolean termsDataPolicyAgree;
 
     @Column(nullable = false)
+    @ColumnDefault("false")
     private boolean termsLocationAgree;
 
     @Column(nullable = false)
@@ -98,6 +105,7 @@ public class User extends BaseEntity {
 
     private LocalDateTime consentRenewalDate;
 
+    @Enumerated(EnumType.STRING)
     private SocialLoginType socialLoginType;
 
     public void updateUser(PatchUserReq patchUserReq){
