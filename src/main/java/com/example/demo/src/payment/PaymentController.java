@@ -6,6 +6,8 @@ import com.example.demo.src.payment.model.PostPaymentRes;
 import com.example.demo.src.payment.model.PostSubscribeRes;
 import com.example.demo.utils.JwtService;
 import com.siot.IamportRestClient.exception.IamportResponseException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,12 @@ public class PaymentController {
     // 결제 진행 후 아래 API 호출 -> 검증 후 통과 하지 못하면 결제 취소. 통과 하면 결제 완료
     @ResponseBody
     @GetMapping("/{impUid}")
+    @Operation(
+        summary = "결제 완료 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 결제 아이디를 입력 하세요. \n."
+        + "결제 진행 후 결제 완료 API를 호출 하세요. 검증 후 통과 하지 못하면 결제 취소, 통과 하면 결제 완료 됩니다."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
     public BaseResponse<PostPaymentRes> createPayment(@PathVariable Long impUid)
         throws IamportResponseException, IOException {
         PostPaymentRes postPaymentRes = paymentService.createPayment(impUid, jwtService.getUserId());
@@ -38,6 +46,10 @@ public class PaymentController {
     // 구독 조회
     @ResponseBody
     @GetMapping("/subscribe/{paymentId}/users/{userId}")
+    @Operation(
+        summary = "구독 조회 API"
+        , description = "# 구독 내역 조회 API 입니다. `Path Variable`로 결제 아이디와 유저 아이디를 입력 하세요."
+    )
     public BaseResponse<PostSubscribeRes> getSubscribe(@PathVariable Long paymentId, @PathVariable @ExistUser Long userId) {
         PostSubscribeRes postSubscribeRes = paymentService.findSubscribe(paymentId, userId);
         return new BaseResponse<>(postSubscribeRes);

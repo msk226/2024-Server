@@ -3,6 +3,8 @@ package com.example.demo.src.image;
 
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.image.model.PostImagesRes;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.io.IOException;
 import java.util.List;
 import javax.validation.constraints.Size;
@@ -28,6 +30,11 @@ public class ImageController {
     // 이미지 업로드
     @ResponseBody
     @PostMapping("")
+    @Operation(
+        summary = "이미지 업로드 API"
+        , description = "# 이미지 업로드 API 입니다. 이미지의 갯수는 10개 까지 가능 합니다. \n."
+        + "이미지 업로드 성공 시, 이미지의 URL을 반환 합니다."
+    )
     public BaseResponse<PostImagesRes> uploadImage(@RequestParam("files") List<MultipartFile> files) throws IOException {
         List<String> urls = imageService.uploadImages(files);
         return new BaseResponse<>(new PostImagesRes(urls));
