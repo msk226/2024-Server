@@ -1,6 +1,7 @@
 package com.example.demo.src.post.model;
 
 
+import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.post.entity.Post;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +18,7 @@ import lombok.Setter;
 public class PostPostingReq {
 
     @NotBlank(message = "작성자 정보는 필수 입력사항 입니다.")
+    @ExistUser
     Long userId;
     @Size(min = 0, max = 500, message = "게시글은 500자 이내로 작성해주세요.")
     String content;

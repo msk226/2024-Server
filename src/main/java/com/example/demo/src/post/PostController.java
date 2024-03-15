@@ -2,6 +2,8 @@ package com.example.demo.src.post;
 
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.common.validation.annotation.ExistPost;
+import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.post.model.GetPostingPreviewRes;
@@ -52,7 +54,7 @@ public class PostController {
     @PatchMapping("/{postId}")
     @Operation( security = @SecurityRequirement(name = "jwtToken"))
     public BaseResponse<String> updatePost(@RequestBody PatchPostingReq patchPostingReq,
-                                           @PathVariable("postId") Long postId){
+                                           @PathVariable("postId") @ExistPost Long postId){
         jwtService.isUserValid(patchPostingReq.getUserId());
         postService.updatePost(patchPostingReq, postId);
         
@@ -65,7 +67,9 @@ public class PostController {
     @ResponseBody
     @PatchMapping("/{postId}/users/{userId}/delete")
     @Operation( security = @SecurityRequirement(name = "jwtToken"))
-    public BaseResponse<String> deletePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId){
+    public BaseResponse<String> deletePost(
+            @PathVariable("postId") @ExistPost Long postId,
+            @PathVariable("userId") @ExistUser Long userId){
         jwtService.isUserValid(userId);
         postService.deletePost(postId, userId);
         String result = "게시글이 삭제되었습니다.";
@@ -76,7 +80,7 @@ public class PostController {
     @ResponseBody
     @GetMapping("/{postId}")
     @Operation( security = @SecurityRequirement(name = "jwtToken"))
-    public BaseResponse<GetPostingRes> getPost(@PathVariable("postId") Long postId){
+    public BaseResponse<GetPostingRes> getPost(@PathVariable("postId") @ExistPost Long postId){
         GetPostingRes getPostingRes = postService.getPost(postId);
         return new BaseResponse<>(getPostingRes);
     }
@@ -85,7 +89,7 @@ public class PostController {
     @ResponseBody
     @PostMapping("/{postId}/users/{userId}/like")
     @Operation( security = @SecurityRequirement(name = "jwtToken"))
-    public BaseResponse<PostPostingLikeRes> addAndCancelLike(@PathVariable Long postId, @PathVariable Long userId){
+    public BaseResponse<PostPostingLikeRes> addAndCancelLike(@PathVariable @ExistPost Long postId, @PathVariable @ExistUser Long userId){
         jwtService.isUserValid(userId);
         Like like = postService.addAndCancelLike(postId, userId);
         return new BaseResponse<>(new PostPostingLikeRes(like));
