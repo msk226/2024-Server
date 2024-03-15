@@ -2,7 +2,6 @@ package com.example.demo.src.user;
 
 import com.example.demo.src.user.entity.User;
 import java.time.LocalDateTime;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode.Op;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
