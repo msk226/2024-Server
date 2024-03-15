@@ -1,6 +1,7 @@
 package com.example.demo.src.payment;
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.payment.model.PostPaymentRes;
 import com.example.demo.src.payment.model.PostSubscribeRes;
 import com.example.demo.utils.JwtService;
@@ -35,7 +36,7 @@ public class PaymentController {
     // 구독 조회
     @ResponseBody
     @GetMapping("/subscribe/{paymentId}/users/{userId}")
-    public BaseResponse<PostSubscribeRes> getSubscribe(@PathVariable Long paymentId, @PathVariable Long userId) {
+    public BaseResponse<PostSubscribeRes> getSubscribe(@PathVariable Long paymentId, @PathVariable @ExistUser Long userId) {
         PostSubscribeRes postSubscribeRes = paymentService.findSubscribe(paymentId, userId);
         return new BaseResponse<>(postSubscribeRes);
     }
