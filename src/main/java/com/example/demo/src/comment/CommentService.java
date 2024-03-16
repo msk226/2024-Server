@@ -1,5 +1,6 @@
 package com.example.demo.src.comment;
 
+import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.comment.entity.Comment;
@@ -29,9 +30,9 @@ public class CommentService {
     private final PostRepository postRepository;
 
     public PostCommentRes createComment(PostCommentReq postCommentReq) {
-        User user = userRepository.findById(postCommentReq.getAuthorId())
+        User user = userRepository.findByIdAndState(postCommentReq.getAuthorId(), State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
-        Post post = postRepository.findById(postCommentReq.getPostId())
+        Post post = postRepository.findByIdAndState(postCommentReq.getPostId(), State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         Comment comment = postCommentReq.toEntity(postCommentReq, user, post);
         try{
@@ -44,13 +45,13 @@ public class CommentService {
     }
 
     public GetCommentRes getComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository.findByIdAndState(commentId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
         return new GetCommentRes(comment);
     }
 
     public PatchCommentRes updateComment(Long commentId, PatchCommentReq patchCommentReq) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository.findByIdAndState(commentId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
         try{
             comment.update(patchCommentReq.getContent());
@@ -62,7 +63,7 @@ public class CommentService {
     }
 
     public void deleteComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository.findByIdAndState(commentId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
         try{
             comment.softDelete();
@@ -74,13 +75,13 @@ public class CommentService {
 
     public GetCommentPreviewRes findAllBySearch(int page, int size) {
         PageRequest request = PageRequest.of(page, size);
-        Page<Comment> comments = commentRepository.findAllByOrderByCreatedAtDesc(request);
+        Page<Comment> comments = commentRepository.findAllByStateOrderByCreatedAtDesc(request, State.ACTIVE);
         return new GetCommentPreviewRes(comments);
     }
 
     public GetCommentPreviewRes findAllBySearchByPostId(Long postId, int page, int size) {
         PageRequest request = PageRequest.of(page, size);
-        Page<Comment> comments = commentRepository.findAllByPostIdOrderByCreatedAtDesc(postId, request);
+        Page<Comment> comments = commentRepository.findAllByStatePostIdOrderByCreatedAtDesc(postId, request, State.ACTIVE);
         return new GetCommentPreviewRes(comments);
     }
 }
