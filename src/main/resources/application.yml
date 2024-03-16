@@ -5,6 +5,10 @@ spring:
       prod: common, prod
 ---
 spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
   config:
     activate:
       on-profile: "common"
@@ -102,7 +106,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     generate-ddl: false

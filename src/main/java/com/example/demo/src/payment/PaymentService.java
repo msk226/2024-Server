@@ -63,12 +63,13 @@ public class PaymentService {
             throw new BaseException(BaseResponseStatus.INVALID_PAYMENT);
         }
 
+        User user =userRepository.findById(userId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER))
         Payments payment = Payments.builder()
             .paidAmount(paymentIamportResponse.getResponse().getAmount().longValue())
             .impUid(Long.valueOf(paymentIamportResponse.getResponse().getImpUid()))
             .merchantUid(Long.valueOf(paymentIamportResponse.getResponse().getMerchantUid()))
             .approvedAt(paymentIamportResponse.getResponse().getPaidAt())
-            .user(userRepository.findById(userId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER)))
+            .user(user)
             .build();
 
 
@@ -104,11 +105,13 @@ public class PaymentService {
     private Subscribe createSubscribe(Long userId, Long paymentId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
         Payments payment = paymentRepository.findById(paymentId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_PAYMENT));
-        return Subscribe.builder()
+        Subscribe subscribe = Subscribe.builder()
             .user(user)
             .payment(payment)
             .subscribeAt(payment.getCreatedAt())
             .build();
+        user.addSubscribe(subscribe, payment); payment.addSubscribe(subscribe);
+        return subscribe;
     }
 
     // 구독 취소 로직

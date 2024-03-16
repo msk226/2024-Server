@@ -71,12 +71,27 @@ public class Post extends BaseEntity{
         this.content = patchPostingReq.getContent();
         this.images = patchPostingReq.getImages();
     }
-    public void setUser(User user){
+    public void setUser(User user) {
+        if (this.author == user) {
+            return;
+        }
+        if (this.author != null) {
+            this.author.removePost(this);
+        }
+        // 새로운 사용자와 연관 관계 설정
         this.author = user;
+        // 새로운 사용자에게 해당 게시물을 추가
+        if (user != null) {
+            user.addPost(this);
+        }
     }
 
     public void delete( ){
         this.state = State.INACTIVE;
     }
+
+    public void addComment(Comment comment){this.comments.add(comment);}
+
+    public void addReport(Report report){this.reports.add(report);}
 
 }

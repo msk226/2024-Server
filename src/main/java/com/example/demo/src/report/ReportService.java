@@ -29,7 +29,7 @@ public class ReportService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
 
         Report report = postReportReq.toEntity(reportUser, reportPost);
-
+        reportPost.addReport(report);
         return reportRepository.save(report);
     }
 

@@ -7,6 +7,7 @@ import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.comment.entity.Comment;
+import com.example.demo.src.payment.entity.Payments;
 import com.example.demo.src.payment.entity.Subscribe;
 import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
@@ -104,6 +105,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Subscribe> subscribes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Payments> payments = new ArrayList<>();
+
     private LocalDateTime lastLoginAt;
 
     private LocalDateTime consentRenewalDate;
@@ -170,4 +174,16 @@ public class User extends BaseEntity {
         return this.userGrade == UserGrade.ADMIN;
     }
 
+    public void addPost(Post post){
+        this.posts.add(post);
+    }
+    public void removePost(Post post){
+        this.posts.remove(post);
+    }
+    public void addSubscribe(Subscribe subscribe, Payments payment){
+        this.subscribes.add(subscribe);
+        this.payments.add(payment);
+    }
+     public void addComment(Comment comment){
+        this.comments.add(comment);}
 }

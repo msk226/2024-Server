@@ -57,5 +57,8 @@ public class Payments extends BaseEntity {
     @OneToOne(mappedBy = "payment", fetch = FetchType.LAZY)
     private Subscribe subscribe;
 
+    public void addSubscribe(Subscribe subscribe) {
+        this.subscribe = subscribe;
+    }
 
 }

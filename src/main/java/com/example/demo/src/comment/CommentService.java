@@ -35,6 +35,7 @@ public class CommentService {
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         Comment comment = postCommentReq.toEntity(postCommentReq, user, post);
         commentRepository.save(comment);
+        user.addComment(comment); post.addComment(comment);
         return new PostCommentRes(comment);
     }
 

@@ -31,8 +31,9 @@ public class PostService {
     // 게시물 작성 로직
     public PostPostingRes createPost(PostPostingReq postPostingReq) {
         Post post = postPostingReq.toEntity();
-        post.setUser(userRepository.findById(postPostingReq.getUserId())
-            .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER)));
+        User user = userRepository.findById(postPostingReq.getUserId())
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
+        post.setUser(user);
         postRepository.save(post);
 
         return new PostPostingRes(post);

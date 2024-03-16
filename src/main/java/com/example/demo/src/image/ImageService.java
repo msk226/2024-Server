@@ -1,5 +1,6 @@
 package com.example.demo.src.image;
 
+import com.example.demo.src.image.entity.Image;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
@@ -34,6 +35,8 @@ public class ImageService {
             InputStream content = new ByteArrayInputStream(file.getBytes());
             Blob blob = bucket.create(file.getOriginalFilename(), content, file.getContentType());
             urls.add(blob.getMediaLink());
+            Image image = Image.builder().imageUrl(blob.getMediaLink()).build();
+            imageRepository.save(image);
         }
         return urls;
     }

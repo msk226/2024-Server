@@ -52,7 +52,7 @@ public class UserController {
         }
         // 입력 받은 유저 정보를 통한 유효성 체크
         if (userService.validateJoinUser(postUserReq)) {
-            return new BaseResponse<>(INVALID_USER_INFO);
+            return new BaseResponse<>(EXIST_USER);
         }
 
         //이메일 정규표현
