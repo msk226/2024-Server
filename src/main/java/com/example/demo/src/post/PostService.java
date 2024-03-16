@@ -2,6 +2,7 @@ package com.example.demo.src.post;
 
 
 import com.example.demo.common.Constant.LikeStatus;
+import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.post.entity.Like;
@@ -31,7 +32,7 @@ public class PostService {
     // 게시물 작성 로직
     public PostPostingRes createPost(PostPostingReq postPostingReq) {
         Post post = postPostingReq.toEntity();
-        User user = userRepository.findById(postPostingReq.getUserId())
+        User user = userRepository.findByIdAndState(postPostingReq.getUserId(), State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
         try{
             post.setUser(user);
@@ -43,7 +44,7 @@ public class PostService {
     }
     
     public void updatePost(PatchPostingReq patchPostingReq, Long postId) {
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         try{
             post.update(patchPostingReq);
@@ -54,7 +55,7 @@ public class PostService {
     }
 
     public void deletePost(Long postId, Long userId) {
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         if (post.getAuthor().getId() != userId){
             throw new BaseException(BaseResponseStatus.NOT_MATCH_USER);
@@ -69,15 +70,15 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public GetPostingRes getPost(Long postId) {
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         return new GetPostingRes(post);
     }
 
     public Like addAndCancelLike(Long postId, Long userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByIdAndState(userId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
-        Post post = postRepository.findById(postId)
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
 
         try{
@@ -98,7 +99,7 @@ public class PostService {
 
     public Page<Post> findAllBySearch(int page, int size) {
         PageRequest request = PageRequest.of(page, size);
-        return postRepository.findAllByOrderByCreatedAtDesc(request);
+        return postRepository.findAllByStateOrderByCreatedAtDesc(request, State.ACTIVE);
     }
 
 
