@@ -3,6 +3,7 @@ package com.example.demo.src.user;
 
 
 import com.example.demo.common.Constant.SocialLoginType;
+import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.user.entity.User;
@@ -120,6 +121,12 @@ public class UserService {
 
         if (user.getState() != ACTIVE) {
             throw new BaseException(NOT_ACITVE_USER);
+        }
+        if (user.getUserStatus() == UserStatus.이용정지){
+            throw new BaseException(RESTRICTED_USER);
+        }
+        if (user.getUserStatus() == UserStatus.탈퇴완료){
+            throw new BaseException(DELETE_USER);
         }
 
         String encryptPwd;

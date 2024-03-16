@@ -37,6 +37,10 @@ public class ReportService {
             throw new BaseException(BaseResponseStatus.FAILED_TO_POST_REPORT);
         }
 
+        if (reportPost.getReports().size() >= 5) {
+            reportPost.softDelete();
+            throw new BaseException(BaseResponseStatus.POST_DELETED_BY_REPORT);
+        }
         return report;
     }
 

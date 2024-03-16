@@ -19,6 +19,8 @@ public enum BaseResponseStatus {
      */
 
     USERS_EMPTY_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일을 입력해주세요."),
+    RESTRICTED_USER(false, HttpStatus.BAD_REQUEST.value(), "제한된 유저입니다."),
+    DELETE_USER(false, HttpStatus.BAD_REQUEST.value(), "탈퇴한 유저입니다."),
     TEST_EMPTY_COMMENT(false, HttpStatus.BAD_REQUEST.value(), "코멘트를 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, HttpStatus.BAD_REQUEST.value(), "이메일 형식을 확인해주세요."),
     POST_USERS_EXISTS_EMAIL(false,HttpStatus.BAD_REQUEST.value(),"중복된 이메일입니다."),
@@ -68,6 +70,7 @@ public enum BaseResponseStatus {
     FAILED_TO_POST_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 작성에 실패 하였습니다."),
     FAILED_TO_UPDATE_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 수정에 실패 하였습니다."),
     FAILED_TO_DELETE_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 삭제에 실패 하였습니다."),
+    POST_DELETED_BY_REPORT(false, HttpStatus.FORBIDDEN.value(), "신고로 인해 게시물이 삭제되었습니다."),
 
 
     /**
