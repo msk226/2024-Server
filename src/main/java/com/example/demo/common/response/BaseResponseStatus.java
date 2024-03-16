@@ -55,6 +55,20 @@ public enum BaseResponseStatus {
     INVALID_PATCH_USER_REQ(false, HttpStatus.BAD_REQUEST.value(), "유저 수정 정보가 잘못되었습니다."),
     INVALID_POST_USER_INFO_REQ(false, HttpStatus.BAD_REQUEST.value(), "유저 정보가 잘못되었습니다."),
     NO_AUTHORITY(false, HttpStatus.FORBIDDEN.value(), "권한이 없습니다."),
+    FAILED_TO_POST_REPORT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "신고에 실패 하였습니다."),
+    FAILED_TO_UPDATE_POST(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "게시물 수정에 실패 하였습니다."),
+    FAILED_TO_POST(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "게시물 작성에 실패 하였습니다."),
+    FAILED_TO_LIKE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "좋아요에 실패 하였습니다."),
+    FAILED_TO_DELETE_POST(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "게시물 삭제에 실패 하였습니다."),
+    FAILED_TO_PAYMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "결제에 실패 하였습니다."),
+    FAILED_TO_CANCEL_PAYMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "결제 취소에 실패 하였습니다."),
+    FAILED_TO_SUBSCRIBE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "구독에 실패 하였습니다."),
+    FAILED_TO_CANCEL_SUBSCRIBE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "구독 취소에 실패 하였습니다."),
+    FAILED_TO_POST_IMAGE(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "이미지 업로드에 실패 하였습니다."),
+    FAILED_TO_POST_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 작성에 실패 하였습니다."),
+    FAILED_TO_UPDATE_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 수정에 실패 하였습니다."),
+    FAILED_TO_DELETE_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 삭제에 실패 하였습니다."),
+
 
     /**
      * 500 :  Database, Server 오류

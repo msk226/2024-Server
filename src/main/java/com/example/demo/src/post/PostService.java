@@ -33,16 +33,24 @@ public class PostService {
         Post post = postPostingReq.toEntity();
         User user = userRepository.findById(postPostingReq.getUserId())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
-        post.setUser(user);
-        postRepository.save(post);
-
+        try{
+            post.setUser(user);
+            postRepository.save(post);
+        }catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_POST);
+        }
         return new PostPostingRes(post);
     }
     
     public void updatePost(PatchPostingReq patchPostingReq, Long postId) {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
-        post.update(patchPostingReq);
+        try{
+            post.update(patchPostingReq);
+        }
+        catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_UPDATE_POST);
+        }
     }
 
     public void deletePost(Long postId, Long userId) {
@@ -51,8 +59,14 @@ public class PostService {
         if (post.getAuthor().getId() != userId){
             throw new BaseException(BaseResponseStatus.NOT_MATCH_USER);
         }
-        post.delete();
+        try{
+            post.softDelete();
+        }
+        catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_DELETE_POST);
+        }
     }
+
     @Transactional(readOnly = true)
     public GetPostingRes getPost(Long postId) {
         Post post = postRepository.findById(postId)
@@ -66,15 +80,20 @@ public class PostService {
         Post post = postRepository.findById(postId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
 
-        if (isAlreadyExistAnswerLike(post, user)) {
-            Like like = likeRepository.findByPostAndUser(post, user);
-            likeRepository.deleteByPostAndUser(post, user);
-            like.cancel();
-            return like;
-        } else {
-            Like like = new Like(user, post);
-            return likeRepository.save(like);
+        try{
+            if (isAlreadyExistAnswerLike(post, user)) {
+                Like like = likeRepository.findByPostAndUser(post, user);
+                likeRepository.deleteByPostAndUser(post, user);
+                like.cancel();
+                return like;
+            } else {
+                Like like = new Like(user, post);
+                return likeRepository.save(like);
+            }
+        }catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_LIKE);
         }
+
     }
 
     public Page<Post> findAllBySearch(int page, int size) {

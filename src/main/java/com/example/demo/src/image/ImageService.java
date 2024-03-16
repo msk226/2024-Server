@@ -1,5 +1,7 @@
 package com.example.demo.src.image;
 
+import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.image.entity.Image;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
@@ -36,7 +38,12 @@ public class ImageService {
             Blob blob = bucket.create(file.getOriginalFilename(), content, file.getContentType());
             urls.add(blob.getMediaLink());
             Image image = Image.builder().imageUrl(blob.getMediaLink()).build();
-            imageRepository.save(image);
+            try{
+                imageRepository.save(image);
+            }
+            catch (Exception ignored){
+                throw new BaseException(BaseResponseStatus.FAILED_TO_POST_IMAGE);
+            }
         }
         return urls;
     }

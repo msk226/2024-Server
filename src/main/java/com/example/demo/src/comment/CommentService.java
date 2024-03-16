@@ -34,8 +34,12 @@ public class CommentService {
         Post post = postRepository.findById(postCommentReq.getPostId())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
         Comment comment = postCommentReq.toEntity(postCommentReq, user, post);
-        commentRepository.save(comment);
-        user.addComment(comment); post.addComment(comment);
+        try{
+            commentRepository.save(comment);
+            user.addComment(comment); post.addComment(comment);
+        }catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_POST_COMMENT);
+        }
         return new PostCommentRes(comment);
     }
 
@@ -48,14 +52,24 @@ public class CommentService {
     public PatchCommentRes updateComment(Long commentId, PatchCommentReq patchCommentReq) {
         Comment comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
-        comment.update(patchCommentReq.getContent());
+        try{
+            comment.update(patchCommentReq.getContent());
+        }
+        catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_UPDATE_COMMENT);
+        }
         return new PatchCommentRes(comment);
     }
 
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
-        comment.softDelete();
+        try{
+            comment.softDelete();
+        }
+        catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_DELETE_COMMENT);
+        }
     }
 
     public GetCommentPreviewRes findAllBySearch(int page, int size) {

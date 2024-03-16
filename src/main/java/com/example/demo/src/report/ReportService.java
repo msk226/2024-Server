@@ -29,8 +29,15 @@ public class ReportService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
 
         Report report = postReportReq.toEntity(reportUser, reportPost);
-        reportPost.addReport(report);
-        return reportRepository.save(report);
+        try{
+            reportPost.addReport(report);
+            reportRepository.save(report);
+        }
+        catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_POST_REPORT);
+        }
+
+        return report;
     }
 
     @Transactional(readOnly = true)

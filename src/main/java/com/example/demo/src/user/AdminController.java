@@ -1,2 +1,15 @@
-package com.example.demo.src.user;public class AdminController {
+package com.example.demo.src.user;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
+@RequiredArgsConstructor
+@CrossOrigin
+@RestController
+@RequestMapping("/app/admin")
+public class AdminController {
 }

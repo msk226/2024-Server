@@ -57,13 +57,17 @@ public class PaymentService {
         if (!Constant.PRICE.equals(paymentIamportResponse.getResponse().getAmount())){
             // 결제 취소
             Payments payments = paymentRepository.findByImpUidAndMerchantUid(impUid, Long.valueOf(paymentIamportResponse.getResponse().getMerchantUid()));
-            payments.softDelete();
-            cancelSubscribe(userId, payments.getId());
-            cancelPayment(paymentIamportResponse.getResponse());
+            try{
+                payments.softDelete();
+                cancelSubscribe(userId, payments.getId());
+                cancelPayment(paymentIamportResponse.getResponse());
+            }catch (Exception e){
+                throw new BaseException(BaseResponseStatus.FAILED_TO_CANCEL_PAYMENT);
+            }
             throw new BaseException(BaseResponseStatus.INVALID_PAYMENT);
         }
 
-        User user =userRepository.findById(userId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER))
+        User user = userRepository.findById(userId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
         Payments payment = Payments.builder()
             .paidAmount(paymentIamportResponse.getResponse().getAmount().longValue())
             .impUid(Long.valueOf(paymentIamportResponse.getResponse().getImpUid()))
@@ -75,12 +79,22 @@ public class PaymentService {
 
         // 구독 정보가 존재하면, 결제 취소
         if (paymentRepository.existsByImpUidAndMerchantUid(impUid, Long.valueOf(paymentIamportResponse.getResponse().getMerchantUid()))){
-            cancelPayment(paymentIamportResponse.getResponse());
+            try{
+                cancelPayment(paymentIamportResponse.getResponse());
+            }
+            catch (Exception e){
+                throw new BaseException(BaseResponseStatus.FAILED_TO_CANCEL_PAYMENT);
+            }
             throw new BaseException(BaseResponseStatus.ALREADY_EXIST_PAYMENT);
         }
 
-        subscribeRepository.save(createSubscribe(userId, payment.getId()));
-        paymentRepository.save(payment);
+        try{
+            subscribeRepository.save(createSubscribe(userId, payment.getId()));
+            paymentRepository.save(payment);
+        }catch (Exception e){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_PAYMENT);
+        }
+
         return new PostPaymentRes(payment);
     }
 
@@ -110,7 +124,12 @@ public class PaymentService {
             .payment(payment)
             .subscribeAt(payment.getCreatedAt())
             .build();
-        user.addSubscribe(subscribe, payment); payment.addSubscribe(subscribe);
+        try{
+            user.addSubscribe(subscribe, payment); payment.addSubscribe(subscribe);
+        }catch (Exception e){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_SUBSCRIBE);
+        }
+
         return subscribe;
     }
 
@@ -120,6 +139,10 @@ public class PaymentService {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_SUBSCRIBE);
         }
         Subscribe subscribe = subscribeRepository.findByUserIdAndPaymentId(userId, paymentId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_PAYMENT));
-        subscribe.softDelete();
+        try{
+            subscribe.softDelete();
+        } catch (Exception e){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_CANCEL_SUBSCRIBE);
+        }
     }
 }
