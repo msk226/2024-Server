@@ -15,5 +15,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findByIdAndState(Long id, State state);
     Page<Comment> findAllByStateOrderByCreatedAtDesc(Pageable pageable, State state);
 
-    Page<Comment> findAllByStatePostIdOrderByCreatedAtDesc(Long postId, Pageable pageable, State state);
+    Page<Comment> findAllByStateAndPostIdOrderByCreatedAtDesc(Long postId, Pageable pageable, State state);
 }

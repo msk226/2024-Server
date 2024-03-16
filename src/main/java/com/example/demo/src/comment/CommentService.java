@@ -81,7 +81,7 @@ public class CommentService {
 
     public GetCommentPreviewRes findAllBySearchByPostId(Long postId, int page, int size) {
         PageRequest request = PageRequest.of(page, size);
-        Page<Comment> comments = commentRepository.findAllByStatePostIdOrderByCreatedAtDesc(postId, request, State.ACTIVE);
+        Page<Comment> comments = commentRepository.findAllByStateAndPostIdOrderByCreatedAtDesc(postId, request, State.ACTIVE);
         return new GetCommentPreviewRes(comments);
     }
 }
