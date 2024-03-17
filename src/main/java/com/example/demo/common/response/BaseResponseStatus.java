@@ -71,6 +71,7 @@ public enum BaseResponseStatus {
     FAILED_TO_UPDATE_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 수정에 실패 하였습니다."),
     FAILED_TO_DELETE_COMMENT(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "댓글 삭제에 실패 하였습니다."),
     POST_DELETED_BY_REPORT(false, HttpStatus.FORBIDDEN.value(), "신고로 인해 게시물이 삭제되었습니다."),
+    NEEDS_CONSENT(false, HttpStatus.FORBIDDEN.value(), "개인정보 동의가 필요합니다."),
 
 
     /**

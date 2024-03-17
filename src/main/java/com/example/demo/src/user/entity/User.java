@@ -159,13 +159,17 @@ public class User extends BaseEntity {
         this.termsOfUseAgree = postUserAgreeReq.isTermsOfUseAgree();
         this.termsDataPolicyAgree = postUserAgreeReq.isTermsDataPolicyAgree();
         this.termsLocationAgree = postUserAgreeReq.isTermsLocationAgree();
+        this.consentRenewalDate = LocalDateTime.now();
     }
 
     public void deleteUser() {
         this.state = State.INACTIVE;
-        this.userStatus = UserStatus.탈퇴완료;
+        this.userStatus = UserStatus.WITHDRAWN;
     }
 
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
     public void updateLastLoginAt(){this.lastLoginAt = LocalDateTime.now();}
 
     public void setSocialLoginType(SocialLoginType socialLoginType) {this.socialLoginType = socialLoginType;}

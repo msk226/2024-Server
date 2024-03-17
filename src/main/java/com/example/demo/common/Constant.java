@@ -11,13 +11,23 @@ public class Constant {
         NAVER
     }
 
-    public enum UserStatus{
-        휴면계정,
-        탈퇴신청,
-        탈퇴취소,
-        탈퇴완료,
-        이용정지,
-        정상,
+    public enum UserStatus {
+        DORMANT("휴면 계정"),
+        NEEDS_CONSENT("개인정보 동의 필요"),
+        WITHDRAWN("탈퇴 완료"),
+        SUSPENDED("이용 정지"),
+        ACTIVE("정상");
+
+        private final String status;
+
+        UserStatus(String status) {
+            this.status = status;
+        }
+
+        @Override
+        public String toString() {
+            return status;
+        }
     }
 
     public enum UserGrade{

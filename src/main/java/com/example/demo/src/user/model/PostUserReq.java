@@ -79,7 +79,7 @@ public class PostUserReq {
                 .termsDataPolicyAgree(this.termsDataPolicyAgree)
                 .termsLocationAgree(this.termsLocationAgree)
                 .userGrade(UserGrade.USER)
-                .userStatus(UserStatus.정상)
+                .userStatus(UserStatus.ACTIVE)
                 .lastLoginAt(LocalDateTime.now())
                 .consentRenewalDate(LocalDateTime.now())
                 .socialLoginType(SocialLoginType.NORMAL)

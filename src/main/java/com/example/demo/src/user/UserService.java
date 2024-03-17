@@ -6,10 +6,12 @@ import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.user.entity.User;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.example.demo.common.Constant.UserStatus.NEEDS_CONSENT;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
 import static com.example.demo.common.response.BaseResponseStatus.*;
 
@@ -122,11 +125,14 @@ public class UserService {
         if (user.getState() != ACTIVE) {
             throw new BaseException(NOT_ACITVE_USER);
         }
-        if (user.getUserStatus() == UserStatus.이용정지){
+        if (user.getUserStatus() == UserStatus.SUSPENDED){
             throw new BaseException(RESTRICTED_USER);
         }
-        if (user.getUserStatus() == UserStatus.탈퇴완료){
+        if (user.getUserStatus() == UserStatus.WITHDRAWN){
             throw new BaseException(DELETE_USER);
+        }
+        if (user.getUserStatus() == NEEDS_CONSENT){
+            throw new BaseException(BaseResponseStatus.NEEDS_CONSENT);
         }
 
         String encryptPwd;
@@ -160,7 +166,24 @@ public class UserService {
     public PostUserAgreeRes modifyUserAgree(Long userId, PostUserAgreeReq postUserAgreeReq) {
         User user = userRepository.findByIdAndState(userId, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
+        if (!postUserAgreeReq.isTermsLocationAgree() || !postUserAgreeReq.isTermsDataPolicyAgree() || !postUserAgreeReq.isTermsOfUseAgree()) {
+            user.setUserStatus(NEEDS_CONSENT);
+        }
+
         user.updateUserAgree(postUserAgreeReq);
+
+
+
         return new PostUserAgreeRes(userId);
+    }
+
+    public void checkAllConsentRenewalDate(){
+        List<User> users = userRepository.findAllByState(ACTIVE);
+        for (User user : users) {
+            if (user.getConsentRenewalDate().plusYears(1L).isAfter(LocalDateTime.now())) {
+                user.setUserStatus(NEEDS_CONSENT);
+            }
+        }
     }
 }

@@ -37,7 +37,7 @@ public class GoogleUser {
                 .termsLocationAgree(false)
                 .termsDataPolicyAgree(false)
                 .userGrade(UserGrade.USER)
-                .userStatus(UserStatus.정상)
+                .userStatus(UserStatus.ACTIVE)
                 .lastLoginAt(LocalDateTime.now())
                 .phoneNum("NONE")
                 .birthYear(0)
