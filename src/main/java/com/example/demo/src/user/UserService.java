@@ -193,7 +193,13 @@ public class UserService {
         }
     }
 
-    public List<GetAllUserRes> getUserDetailForAdmin(GetAllUserReq getAllUserReq){
+    public List<GetAllUserRes> getUserDetailForAdmin(GetAllUserReq getAllUserReq, Long userId){
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+
+        if (user.isAdmin() == false){
+            throw new BaseException(UNAUTHORIZED_USER);
+        }
         Map<String, Object> userDetail = new HashMap<>();
         if (getAllUserReq.getName() != null) {
             userDetail.put("name", getAllUserReq.getName());
