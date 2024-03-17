@@ -257,15 +257,23 @@ public class UserController {
      */
     @ResponseBody
     @GetMapping("/admin")
+    @Operation(
+        summary = "!관리자용! 회원 전체 조회 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 조회할 회원의 정보를 입력하세요."
+    )
     public BaseResponse<List<GetAllUserRes>> getAllUsers(@RequestBody GetAllUserReq getAllUserReq){
         userService.isAdmin(jwtService.getUserId());
         List<GetAllUserRes> userDetailForAdmin = userService.getUserDetailForAdmin(getAllUserReq);
         return new BaseResponse<>(userDetailForAdmin);
     }
 
-    // 회원 정지 API
+    // !관리자용! 회원 정지 API
     @ResponseBody
     @PostMapping("/admin/{userId}/stop")
+    @Operation(
+        summary = "!관리자용! 회원 정지 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하세요."
+    )
     public BaseResponse<String> stopUser(@PathVariable("userId") Long userId){
         userService.isAdmin(jwtService.getUserId());
         userService.stopUser(userId);
@@ -274,9 +282,13 @@ public class UserController {
     }
 
 
-    // 회원 전체 정보 조회 API
+    // !관리자용! 회원 전체 정보 조회 API
     @ResponseBody
     @GetMapping("/admin/{userId}")
+    @Operation(
+        summary = "!관리자용! 회원 전체 정보 조회 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하세요"
+    )
     public BaseResponse<GetUserAllDetailRes> getUserAllDetail(@PathVariable("userId") Long userId){
         userService.isAdmin(jwtService.getUserId());
         GetUserAllDetailRes userAllDetail = userService.getUserAllDetail(userId);
