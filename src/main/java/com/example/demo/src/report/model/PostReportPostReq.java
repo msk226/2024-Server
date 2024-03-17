@@ -16,7 +16,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostReportReq {
+public class PostReportPostReq {
+
 
     @ExistUser
     private Long userId;
@@ -33,6 +34,7 @@ public class PostReportReq {
         return Report.builder()
                 .reportUser(user)
                 .reportPost(post)
+                .reportComment(null)
                 .reportDetail(reportDetail)
                 .reportReason(reportReason)
                 .build();

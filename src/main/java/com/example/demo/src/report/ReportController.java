@@ -5,7 +5,7 @@ import com.example.demo.common.validation.annotation.ExistReport;
 import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.report.model.GetReportRes;
-import com.example.demo.src.report.model.PostReportReq;
+import com.example.demo.src.report.model.PostReportPostReq;
 import com.example.demo.src.report.model.PostReportRes;
 import com.example.demo.utils.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,18 +33,31 @@ public class ReportController {
 
     // 게시물 신고
     @ResponseBody
-    @PostMapping("")
+    @PostMapping("/posts")
     @Operation(
         summary = "게시물에 대한 신고 작성 API"
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 신고할 내용을 입력하세요."
         , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
     )
-    public BaseResponse<PostReportRes> createReport(@RequestBody PostReportReq postReportReq) {
-        jwtService.isUserValid(postReportReq.getUserId());
-        Report report = reportService.createReport(postReportReq);
+    public BaseResponse<PostReportRes> createReportForPost(@RequestBody PostReportPostReq postReportPostReq) {
+        jwtService.isUserValid(postReportPostReq.getUserId());
+        Report report = reportService.createReportForPost(postReportPostReq);
         return new BaseResponse<>(new PostReportRes(report));
     }
 
+    // 댓글 신고
+    @ResponseBody
+    @PostMapping("/comments")
+    @Operation(
+        summary = "댓글에 대한 신고 작성 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 신고할 내용을 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
+    public BaseResponse<PostReportRes> createReportForComment(@RequestBody PostReportPostReq postReportPostReq) {
+        jwtService.isUserValid(postReportPostReq.getUserId());
+        Report report = reportService.createReportForComment(postReportPostReq);
+        return new BaseResponse<>(new PostReportRes(report));
+    }
 
     // 게시물 신고 조회 (관리자용)
     @ResponseBody
@@ -57,4 +70,11 @@ public class ReportController {
         Report report = reportService.getReport(reportId, adminId);
         return new BaseResponse<>(new GetReportRes(report));
     }
+
+    // 댓글 신고 조회 (관리자용)
+
+    // 댓글 강제 삭제 (관리자용)
+
+    // 게시믈 강제 삭제 (관리자용)
+
 }

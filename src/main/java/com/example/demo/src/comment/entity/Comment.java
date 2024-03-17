@@ -3,7 +3,9 @@ package com.example.demo.src.comment.entity;
 
 import com.example.demo.common.entity.BaseEntity;
 import com.example.demo.src.post.entity.Post;
+import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.user.entity.User;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -47,8 +50,15 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+
+    @OneToMany(mappedBy = "reportComment", fetch = FetchType.LAZY)
+    private List<Report> reports;
+
     public void update(String content) {
         this.content = content;
     }
 
+    public void addReport(Report report) {
+        this.reports.add(report);
+    }
 }

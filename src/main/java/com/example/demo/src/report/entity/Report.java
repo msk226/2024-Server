@@ -2,6 +2,7 @@ package com.example.demo.src.report.entity;
 
 import com.example.demo.common.Constant.ReportReason;
 import com.example.demo.common.entity.BaseEntity;
+import com.example.demo.src.comment.entity.Comment;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.user.entity.User;
 import javax.persistence.Column;
@@ -48,6 +49,10 @@ public class Report extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "report_post_id")
     private Post reportPost;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_comment_id")
+    private Comment reportComment;
 
     private Integer reportCount;
 }

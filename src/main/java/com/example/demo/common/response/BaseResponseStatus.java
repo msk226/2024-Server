@@ -73,6 +73,7 @@ public enum BaseResponseStatus {
     POST_DELETED_BY_REPORT(false, HttpStatus.FORBIDDEN.value(), "신고로 인해 게시물이 삭제되었습니다."),
     NEEDS_CONSENT(false, HttpStatus.FORBIDDEN.value(), "개인정보 동의가 필요합니다."),
     UNAUTHORIZED_USER(false, HttpStatus.UNAUTHORIZED.value(), "권한이 없는 유저입니다."),
+    COMMENT_DELETED_BY_REPORT(false, HttpStatus.FORBIDDEN.value(), "신고로 인해 댓글이 삭제되었습니다."),
 
 
     /**
