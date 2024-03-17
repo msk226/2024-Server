@@ -8,6 +8,7 @@ import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.post.model.GetAllPostingReq;
 import com.example.demo.src.post.model.GetAllPostingRes;
+import com.example.demo.src.post.model.GetPostingAllDetailRes;
 import com.example.demo.src.post.model.GetPostingPreviewRes;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
@@ -141,11 +142,41 @@ public class PostController {
     @Operation(
         summary = "# !관리자용! 게시글 전체 조회 API"
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. 또한 관리자만 이용 가능합니다. `Request body`에 게시글 조회에 대한 정보를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
     )
     public BaseResponse<List<GetAllPostingRes>> getAllPosts(@RequestBody GetAllPostingReq getAllPostingReq){
         userService.isAdmin(jwtService.getUserId());
         List<GetAllPostingRes> allPosts = postService.getAllPosts(getAllPostingReq);
         return new BaseResponse<>(allPosts);
+    }
+
+    // !관리자용! 게시글 삭제
+    @ResponseBody
+    @PatchMapping("/admin/{postId}/delete")
+    @Operation(
+        summary = "# !관리자용! 게시글 삭제 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. 또한 관리자만 이용 가능합니다. `Path Variable`로 삭제할 게시글의 `postId`를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
+    public BaseResponse<String> deletePostForAdmin(@PathVariable("postId") @ExistPost Long postId){
+        userService.isAdmin(jwtService.getUserId());
+        postService.deletePostForAdmin(postId);
+        String result = "게시글이 삭제되었습니다.";
+        return new BaseResponse<>(result);
+    }
+
+    // !관리자용! 게시글 상세 정보 조회
+    @ResponseBody
+    @GetMapping("/admin/{postId}")
+    @Operation(
+        summary = "# !관리자용! 게시글 상세 정보 조회 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. 또한 관리자만 이용 가능합니다. `Path Variable`로 조회할 게시글의 `postId`를 입력하세요."
+        , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
+    )
+    public BaseResponse<GetPostingAllDetailRes> getPostForAdmin(@PathVariable("postId") @ExistPost Long postId){
+        userService.isAdmin(jwtService.getUserId());
+        GetPostingAllDetailRes postForAdmin = postService.getPostForAdmin(postId);
+        return new BaseResponse<>(postForAdmin);
     }
 
 }

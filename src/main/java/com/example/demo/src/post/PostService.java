@@ -10,6 +10,7 @@ import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.post.model.GetAllPostingReq;
 import com.example.demo.src.post.model.GetAllPostingRes;
+import com.example.demo.src.post.model.GetPostingAllDetailRes;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
 import com.example.demo.src.post.model.PostPostingReq;
@@ -112,6 +113,7 @@ public class PostService {
         return postRepository.findAllByStateOrderByCreatedAtDesc(request, State.ACTIVE);
     }
 
+    @Transactional(readOnly = true)
     public List<GetAllPostingRes> getAllPosts(GetAllPostingReq getAllPostingReq){
         Map<String, Object> search = new HashMap<>();
         if (getAllPostingReq.getNickname() != null){
@@ -129,6 +131,25 @@ public class PostService {
             .map(GetAllPostingRes::new)
             .collect(Collectors.toList());
     }
+
+    public void deletePostForAdmin(Long postId) {
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
+        try{
+            postRepository.delete(post);
+        }
+        catch (Exception ignored){
+            throw new BaseException(BaseResponseStatus.FAILED_TO_DELETE_POST);
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public GetPostingAllDetailRes getPostForAdmin(Long postId) {
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
+        return new GetPostingAllDetailRes(post);
+    }
+
 
 
     private boolean isAlreadyExistAnswerLike(Post post, User user){
