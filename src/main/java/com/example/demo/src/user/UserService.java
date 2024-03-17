@@ -193,8 +193,8 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<GetAllUserRes> getUserDetailForAdmin(GetAllUserReq getAllUserReq){
-
 
         Map<String, Object> userDetail = new HashMap<>();
         if (getAllUserReq.getName() != null) {
@@ -220,6 +220,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public void isAdmin(Long userId) {
         User user = userRepository.findByIdAndState(userId, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
@@ -233,6 +234,7 @@ public class UserService {
         user.setUserStatus(UserStatus.SUSPENDED);
     }
 
+    @Transactional(readOnly = true)
     public GetUserAllDetailRes getUserAllDetail(Long userId) {
         User user = userRepository.findByIdAndState(userId, ACTIVE)
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
