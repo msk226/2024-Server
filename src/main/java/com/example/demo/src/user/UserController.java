@@ -275,5 +275,11 @@ public class UserController {
 
 
     // 회원 전체 정보 조회 API
-
+    @ResponseBody
+    @GetMapping("/admin/{userId}")
+    public BaseResponse<GetUserAllDetailRes> getUserAllDetail(@PathVariable("userId") Long userId){
+        userService.isAdmin(jwtService.getUserId());
+        GetUserAllDetailRes userAllDetail = userService.getUserAllDetail(userId);
+        return new BaseResponse<>(userAllDetail);
+    }
 }

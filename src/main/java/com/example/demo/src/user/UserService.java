@@ -232,4 +232,10 @@ public class UserService {
                 .orElseThrow(() -> new BaseException(NOT_FIND_USER));
         user.setUserStatus(UserStatus.SUSPENDED);
     }
+
+    public GetUserAllDetailRes getUserAllDetail(Long userId) {
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        return new GetUserAllDetailRes(user);
+    }
 }
