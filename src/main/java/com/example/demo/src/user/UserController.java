@@ -258,12 +258,20 @@ public class UserController {
     @ResponseBody
     @GetMapping("/admin")
     public BaseResponse<List<GetAllUserRes>> getAllUsers(@RequestBody GetAllUserReq getAllUserReq){
-        Long userId = jwtService.getUserId();
-        List<GetAllUserRes> userDetailForAdmin = userService.getUserDetailForAdmin(getAllUserReq, userId);
+        userService.isAdmin(jwtService.getUserId());
+        List<GetAllUserRes> userDetailForAdmin = userService.getUserDetailForAdmin(getAllUserReq);
         return new BaseResponse<>(userDetailForAdmin);
     }
 
     // 회원 정지 API
+    @ResponseBody
+    @PostMapping("/admin/{userId}/stop")
+    public BaseResponse<String> stopUser(@PathVariable("userId") Long userId){
+        userService.isAdmin(jwtService.getUserId());
+        userService.stopUser(userId);
+        String result = "정지 완료!!";
+        return new BaseResponse<>(result);
+    }
 
 
     // 회원 전체 정보 조회 API

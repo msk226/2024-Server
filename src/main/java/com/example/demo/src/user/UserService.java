@@ -193,13 +193,9 @@ public class UserService {
         }
     }
 
-    public List<GetAllUserRes> getUserDetailForAdmin(GetAllUserReq getAllUserReq, Long userId){
-        User user = userRepository.findByIdAndState(userId, ACTIVE)
-                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+    public List<GetAllUserRes> getUserDetailForAdmin(GetAllUserReq getAllUserReq){
 
-        if (user.isAdmin() == false){
-            throw new BaseException(UNAUTHORIZED_USER);
-        }
+
         Map<String, Object> userDetail = new HashMap<>();
         if (getAllUserReq.getName() != null) {
             userDetail.put("name", getAllUserReq.getName());
@@ -222,5 +218,18 @@ public class UserService {
         return userRepository.findAll(UserSpecification.searchUser(userDetail)).stream()
                 .map(GetAllUserRes::new)
                 .collect(Collectors.toList());
+    }
+
+    public void isAdmin(Long userId) {
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        if (user.isAdmin() == false){
+            throw new BaseException(UNAUTHORIZED_USER);
+        }
+    }
+    public void stopUser(Long userId) {
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        user.setUserStatus(UserStatus.SUSPENDED);
     }
 }
