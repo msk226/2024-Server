@@ -8,6 +8,7 @@ import com.example.demo.src.report.model.GetReportRes;
 import com.example.demo.src.report.model.PostReportCommentReq;
 import com.example.demo.src.report.model.PostReportPostReq;
 import com.example.demo.src.report.model.PostReportRes;
+import com.example.demo.src.user.UserService;
 import com.example.demo.utils.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,6 +33,7 @@ public class ReportController {
 
     private final ReportService reportService;
     private final JwtService jwtService;
+    private final UserService userService;
 
     // 게시물 신고
     @ResponseBody
@@ -61,7 +63,7 @@ public class ReportController {
         return new BaseResponse<>(new PostReportRes(report));
     }
 
-    // 게시물 신고 조회 (관리자용)
+    // 신고 내역 조회 (관리자용)
     @ResponseBody
     @GetMapping("/{reportId}/admin/{adminId}")
     @Operation(
@@ -69,15 +71,22 @@ public class ReportController {
         , description = "# 관리자만 이용 가능합니다. `Path Variable`로 조회할 `reportId`를 입력 하세요."
     )
     public BaseResponse<GetReportRes> getReport(@PathVariable @ExistReport Long reportId, @PathVariable @ExistUser Long adminId) {
+        userService.isAdmin(adminId);
         Report report = reportService.getReport(reportId, adminId);
         return new BaseResponse<>(new GetReportRes(report));
     }
 
-    // 댓글 신고 조회 (관리자용)
 
-
-    // 댓글 강제 삭제 (관리자용)
-
-    // 게시믈 강제 삭제 (관리자용)
-
+    // 댓글 및 게시물 신고로 인한 삭제 (관리자용)
+    @ResponseBody
+    @PostMapping("/{reportId}/admin/{adminId}")
+    @Operation(
+        summary = "# !관리자용! 게시물 및 댓글 신고로 인한 삭제 API"
+        , description = "# 관리자만 이용 가능합니다. `Path Variable`로 삭제할 `reportId`를 입력 하세요."
+    )
+    public BaseResponse<String> deleteReport(@PathVariable @ExistReport Long reportId, @PathVariable @ExistUser Long adminId) {
+        userService.isAdmin(adminId);
+        reportService.deletePostOrCommentByReport(reportId);
+        return new BaseResponse<>("신고 내역 삭제 성공");
+    }
 }

@@ -81,4 +81,27 @@ public class ReportService {
         return reportRepository.findById(reportId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.REPORT_NOT_FOUND));
     }
+    public void deletePostOrCommentByReport(Long reportId) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.REPORT_NOT_FOUND));
+
+        if (report.getReportComment() != null) {
+            Comment comment = report.getReportComment();
+            try{
+                commentRepository.delete(comment);
+                report.softDelete();
+            }catch (Exception ignored){
+                throw new BaseException(BaseResponseStatus.FAILED_TO_DELETE_COMMENT);
+
+        }
+        if (report.getReportPost() != null){
+            Post post = report.getReportPost();
+            try{
+                postRepository.delete(post);
+                report.softDelete();
+            }catch (Exception ignored){
+                throw new BaseException(BaseResponseStatus.FAILED_TO_DELETE_POST);}
+            }
+        }
+    }
 }
