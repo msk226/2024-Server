@@ -6,15 +6,19 @@ import com.example.demo.common.validation.annotation.ExistPost;
 import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
+import com.example.demo.src.post.model.GetAllPostingReq;
+import com.example.demo.src.post.model.GetAllPostingRes;
 import com.example.demo.src.post.model.GetPostingPreviewRes;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
 import com.example.demo.src.post.model.PostPostingLikeRes;
 import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
+import com.example.demo.src.user.UserService;
 import com.example.demo.utils.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import java.util.List;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,6 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     private final PostService postService;
+    private final UserService userService;
     private final JwtService jwtService;
 
     // 게시글 작성
@@ -129,4 +134,18 @@ public class PostController {
         Page<Post> posts = postService.findAllBySearch(page, size);
         return new BaseResponse<>(new GetPostingPreviewRes(posts));
     }
+
+    // !관리자용! 게시글 전체 조회
+    @ResponseBody
+    @GetMapping("/admin")
+    @Operation(
+        summary = "# !관리자용! 게시글 전체 조회 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. 또한 관리자만 이용 가능합니다. `Request body`에 게시글 조회에 대한 정보를 입력하세요."
+    )
+    public BaseResponse<List<GetAllPostingRes>> getAllPosts(@RequestBody GetAllPostingReq getAllPostingReq){
+        userService.isAdmin(jwtService.getUserId());
+        List<GetAllPostingRes> allPosts = postService.getAllPosts(getAllPostingReq);
+        return new BaseResponse<>(allPosts);
+    }
+
 }

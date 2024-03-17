@@ -5,15 +5,25 @@ import com.example.demo.common.Constant.LikeStatus;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.common.specification.EntitySpecification;
 import com.example.demo.src.post.entity.Like;
 import com.example.demo.src.post.entity.Post;
+import com.example.demo.src.post.model.GetAllPostingReq;
+import com.example.demo.src.post.model.GetAllPostingRes;
 import com.example.demo.src.post.model.GetPostingRes;
 import com.example.demo.src.post.model.PatchPostingReq;
 import com.example.demo.src.post.model.PostPostingReq;
 import com.example.demo.src.post.model.PostPostingRes;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -100,6 +110,24 @@ public class PostService {
     public Page<Post> findAllBySearch(int page, int size) {
         PageRequest request = PageRequest.of(page, size);
         return postRepository.findAllByStateOrderByCreatedAtDesc(request, State.ACTIVE);
+    }
+
+    public List<GetAllPostingRes> getAllPosts(GetAllPostingReq getAllPostingReq){
+        Map<String, Object> search = new HashMap<>();
+        if (getAllPostingReq.getNickname() != null){
+            search.put("nickname", getAllPostingReq.getNickname());
+        }
+        if (getAllPostingReq.getCreatedAt() != null) {
+            LocalDate date = LocalDate.parse(getAllPostingReq.getCreatedAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDateTime createdAt = date.atTime(0, 0, 0);
+            search.put("createdAt", createdAt);
+        }
+        if (getAllPostingReq.getState() != null) {
+            search.put("state", getAllPostingReq.getState());
+        }
+        return postRepository.findAll(EntitySpecification.searchPost(search)).stream()
+            .map(GetAllPostingRes::new)
+            .collect(Collectors.toList());
     }
 
 

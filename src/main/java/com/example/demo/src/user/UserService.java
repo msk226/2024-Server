@@ -4,15 +4,13 @@ package com.example.demo.src.user;
 
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.Constant.UserStatus;
-import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
-import com.example.demo.common.specification.UserSpecification;
+import com.example.demo.common.specification.EntitySpecification;
 import com.example.demo.src.user.entity.User;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
-import com.google.auth.oauth2.UserCredentials;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -215,7 +213,7 @@ public class UserService {
             userDetail.put("createdAt", createdAt);
         }
 
-        return userRepository.findAll(UserSpecification.searchUser(userDetail)).stream()
+        return userRepository.findAll(EntitySpecification.searchUser(userDetail)).stream()
                 .map(GetAllUserRes::new)
                 .collect(Collectors.toList());
     }
