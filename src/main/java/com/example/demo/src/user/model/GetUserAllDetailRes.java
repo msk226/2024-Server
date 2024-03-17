@@ -3,6 +3,7 @@ package com.example.demo.src.user.model;
 import com.example.demo.common.Constant.UserGrade;
 import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.src.user.entity.User;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,9 @@ public class GetUserAllDetailRes {
     private boolean termsLocationAgree;
     private UserStatus userStatus;
     private UserGrade userGrade;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime lastLoginAt;
 
     public GetUserAllDetailRes(User user){
         this.id = user.getId();
@@ -45,5 +49,8 @@ public class GetUserAllDetailRes {
         this.termsLocationAgree = user.isTermsLocationAgree();
         this.userStatus = user.getUserStatus();
         this.userGrade = user.getUserGrade();
+        this.createdAt = user.getCreatedAt();
+        this.updatedAt = user.getUpdatedAt();
+        this.lastLoginAt = user.getLastLoginAt();
     }
 }
