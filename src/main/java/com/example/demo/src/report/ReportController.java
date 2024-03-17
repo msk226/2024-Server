@@ -5,6 +5,7 @@ import com.example.demo.common.validation.annotation.ExistReport;
 import com.example.demo.common.validation.annotation.ExistUser;
 import com.example.demo.src.report.entity.Report;
 import com.example.demo.src.report.model.GetReportRes;
+import com.example.demo.src.report.model.PostReportCommentReq;
 import com.example.demo.src.report.model.PostReportPostReq;
 import com.example.demo.src.report.model.PostReportRes;
 import com.example.demo.utils.JwtService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import retrofit2.http.POST;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,9 +55,9 @@ public class ReportController {
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 신고할 내용을 입력하세요."
         , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
     )
-    public BaseResponse<PostReportRes> createReportForComment(@RequestBody PostReportPostReq postReportPostReq) {
-        jwtService.isUserValid(postReportPostReq.getUserId());
-        Report report = reportService.createReportForComment(postReportPostReq);
+    public BaseResponse<PostReportRes> createReportForComment(@RequestBody PostReportCommentReq postReportCommentReq) {
+        jwtService.isUserValid(postReportCommentReq.getUserId());
+        Report report = reportService.createReportForComment(postReportCommentReq);
         return new BaseResponse<>(new PostReportRes(report));
     }
 
