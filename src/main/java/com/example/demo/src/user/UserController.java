@@ -251,4 +251,19 @@ public class UserController {
         return new BaseResponse<>(result);
     }
 
+    /** !관리자용! 회원 전체 조회 API
+     * [GET] /app/users/admin
+     * @return BaseResponse<GetAllUserRes>
+     */
+    @ResponseBody
+    @GetMapping("/admin")
+    public BaseResponse<List<GetAllUserRes>> getAllUsers(@RequestBody GetAllUserReq getAllUserReq){
+        List<GetAllUserRes> userDetailForAdmin = userService.getUserDetailForAdmin(getAllUserReq);
+        return new BaseResponse<>(userDetailForAdmin);
+    }
+
+    // 회원 정지 API
+
+    // 회원 전체 정보 조회 API
+
 }

@@ -7,11 +7,17 @@ import com.example.demo.common.Constant.UserStatus;
 import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.common.specification.UserSpecification;
 import com.example.demo.src.user.entity.User;
 import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import com.example.demo.utils.SHA256;
+import com.google.auth.oauth2.UserCredentials;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -185,5 +191,30 @@ public class UserService {
                 user.setUserStatus(NEEDS_CONSENT);
             }
         }
+    }
+
+    public List<GetAllUserRes> getUserDetailForAdmin(GetAllUserReq getAllUserReq){
+        Map<String, Object> userDetail = new HashMap<>();
+        if (getAllUserReq.getName() != null) {
+            userDetail.put("name", getAllUserReq.getName());
+        }
+        if (getAllUserReq.getNickname() != null) {
+            userDetail.put("email", getAllUserReq.getNickname());
+        }
+        if (getAllUserReq.getPhoneNum() != null) {
+            userDetail.put("phoneNum", getAllUserReq.getPhoneNum());
+        }
+        if (getAllUserReq.getStatus() != null) {
+            userDetail.put("status", getAllUserReq.getStatus());
+        }
+        if (getAllUserReq.getCreatedAt() != null) {
+            LocalDate date = LocalDate.parse(getAllUserReq.getCreatedAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDateTime createdAt = date.atTime(0, 0, 0);
+            userDetail.put("createdAt", createdAt);
+        }
+
+        return userRepository.findAll(UserSpecification.searchUser(userDetail)).stream()
+                .map(GetAllUserRes::new)
+                .collect(Collectors.toList());
     }
 }

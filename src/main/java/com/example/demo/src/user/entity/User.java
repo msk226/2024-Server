@@ -45,8 +45,11 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 20)
     private String name;
+
+    @Column(nullable = false, length = 20)
+    private String nickname;
 
     @Column(nullable = false, length = 20)
     private String phoneNum;
@@ -122,6 +125,7 @@ public class User extends BaseEntity {
         }
         this.password = postUserInfoReq.getPassword();
         this.name = postUserInfoReq.getName();
+        this.nickname = postUserInfoReq.getNickname();
         this.phoneNum = postUserInfoReq.getPhoneNum();
         this.birthYear = postUserInfoReq.getBirthYear();
         this.birthMonth = postUserInfoReq.getBirthMonth();

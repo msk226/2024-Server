@@ -20,7 +20,12 @@ public class PostUserInfoReq {
     private String password;
 
     @NotBlank(message = "이름은 필수 입력사항 입니다.")
+    @Size(min = 1, max = 20, message = "이름은 20자 이내 입니다.")
     private String name;
+
+    @NotBlank(message = "닉네임은 필수 입력사항 입니다.")
+    @Size(min = 1, max = 20, message = "닉네임은 20자 이내 입니다.")
+    private String nickname;
 
     @NotBlank(message = "전화번호는 필수 입력사항 입니다.")
     @Size(min = 10, max = 11, message = "전화번호는 10~11자리 입니다.")

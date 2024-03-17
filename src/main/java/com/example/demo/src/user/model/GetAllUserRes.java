@@ -1,7 +1,7 @@
 package com.example.demo.src.user.model;
 
-
 import com.example.demo.src.user.entity.User;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +11,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetUserRes {
-    private Long id;
-    private String email;
-    private String name;
+public class GetAllUserRes {
     private String nickname;
+    private String phoneNum;
+    private LocalDateTime createdAt;
 
-    public GetUserRes(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.name = user.getName();
+    public GetAllUserRes(User user) {
         this.nickname = user.getNickname();
+        this.phoneNum = user.getPhoneNum();
+        this.createdAt = user.getCreatedAt();
     }
 }

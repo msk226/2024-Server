@@ -29,6 +29,10 @@ public class PostUserReq {
     @Size(min = 6, max = 20, message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     private String password;
 
+    @NotBlank(message = "닉네임은 필수 입력사항 입니다.")
+    @Size(min = 1, max = 20, message = "닉네임은 20자 이내 입니다.")
+    private String nickname;
+
     @NotBlank(message = "이름은 필수 입력사항 입니다.")
     private String name;
 
