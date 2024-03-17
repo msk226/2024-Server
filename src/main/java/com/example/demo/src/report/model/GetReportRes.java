@@ -17,14 +17,20 @@ public class GetReportRes {
     private Long reportId;
     private Long userId;
     private Long postId;
+    private Long commentId;
     private ReportReason reportReason;
     private String reportDetail;
     private LocalDateTime createdAt;
 
     public GetReportRes(Report report) {
+        if (report.getReportPost() != null) {
+            this.postId = report.getReportPost().getId();
+        }
+        if (report.getReportComment() != null) {
+            this.commentId = report.getReportComment().getId();
+        }
         this.reportId = report.getId();
         this.userId = report.getReportUser().getId();
-        this.postId = report.getReportPost().getId();
         this.createdAt = report.getCreatedAt();
         this.reportReason = report.getReportReason();
         this.reportDetail = report.getReportDetail();
