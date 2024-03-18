@@ -73,6 +73,7 @@ public class PostUserReq {
                 .email(this.email)
                 .password(this.password)
                 .name(this.name)
+                .nickname(this.nickname)
                 .isOAuth(this.isOAuth)
                 .profileImageUrl(this.profileImageUrl)
                 .phoneNum(this.phoneNum)
