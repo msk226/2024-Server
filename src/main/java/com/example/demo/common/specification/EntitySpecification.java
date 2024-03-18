@@ -1,5 +1,6 @@
 package com.example.demo.common.specification;
 
+import com.example.demo.src.payment.entity.Subscribe;
 import com.example.demo.src.post.entity.Post;
 import com.example.demo.src.user.entity.User;
 import java.time.LocalDateTime;
@@ -27,6 +28,21 @@ public class EntitySpecification {
 
 
     public static Specification<Post> searchPost(Map<String, Object> searchKey){
+        return ((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            for(String key : searchKey.keySet()){
+                if (key == "createdAt") {
+                    LocalDateTime createdAt = LocalDateTime.parse(searchKey.get(key).toString());
+                    predicates.add(criteriaBuilder.between(root.get(key), createdAt, createdAt.plusDays(1)));
+                    continue;
+                }
+                predicates.add(criteriaBuilder.equal(root.get(key), searchKey.get(key)));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
+    }
+
+    public static Specification<Subscribe> searchSubscribe(Map<String, Object> searchKey){
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             for(String key : searchKey.keySet()){

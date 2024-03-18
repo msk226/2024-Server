@@ -4,18 +4,29 @@ package com.example.demo.src.payment;
 import com.example.demo.common.Constant;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.common.specification.EntitySpecification;
 import com.example.demo.src.payment.entity.Payments;
 import com.example.demo.src.payment.entity.Subscribe;
+import com.example.demo.src.payment.model.GetAllSubscribeReq;
+import com.example.demo.src.payment.model.GetAllSubscribeRes;
 import com.example.demo.src.payment.model.PostPaymentRes;
 import com.example.demo.src.payment.model.PostSubscribeRes;
 import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
+import com.example.demo.src.user.model.GetAllUserRes;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,6 +112,30 @@ public class PaymentService {
     // 구독 조회
     public PostSubscribeRes findSubscribe(Long userId, Long paymentId) {
         return new PostSubscribeRes(subscribeRepository.findByUserIdAndPaymentId(userId, paymentId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_SUBSCRIBE)));
+    }
+
+    public List<GetAllSubscribeRes> getAllSubscribeForAdmin(GetAllSubscribeReq getAllSubscribeReq){
+        Map<String, Object> subscribeDetail = new HashMap<>();
+        if (getAllSubscribeReq.getName() != null){
+            subscribeDetail.put("name", getAllSubscribeReq.getName());
+        }
+        if (getAllSubscribeReq.getNickname() != null){
+            subscribeDetail.put("nickname", getAllSubscribeReq.getNickname());
+        }
+        if (getAllSubscribeReq.getPhoneNum() != null){
+            subscribeDetail.put("phoneNum", getAllSubscribeReq.getPhoneNum());
+        }
+        if (getAllSubscribeReq.getStatus() != null){
+            subscribeDetail.put("status", getAllSubscribeReq.getStatus());
+        }
+        if (getAllSubscribeReq.getCreatedAt() != null){
+            LocalDate date = LocalDate.parse(getAllSubscribeReq.getCreatedAt(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDateTime createdAt = date.atTime(0, 0, 0);
+            subscribeDetail.put("createdAt", createdAt);
+        }
+        return subscribeRepository.findAll(EntitySpecification.searchSubscribe(subscribeDetail)).stream()
+            .map(GetAllSubscribeRes::new)
+            .collect(Collectors.toList());
     }
 
     // 정기 결제 로직

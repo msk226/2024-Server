@@ -49,32 +49,33 @@ public class GetAllSubscribeRes {
     private List<Payments> payments;
     private SocialLoginType socialLoginType;
 
-    public GetAllSubscribeRes(User user){
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.nickname = user.getNickname();
-        this.phoneNum = user.getPhoneNum();
-        this.isOAuth = user.isOAuth();
-        this.profileImageUrl = user.getProfileImageUrl();
-        this.birthYear = user.getBirthYear();
-        this.birthMonth = user.getBirthMonth();
-        this.birthDay = user.getBirthDay();
-        this.termsOfUseAgree = user.isTermsOfUseAgree();
-        this.termsDataPolicyAgree = user.isTermsDataPolicyAgree();
-        this.termsLocationAgree = user.isTermsLocationAgree();
-        this.userStatus = user.getUserStatus();
-        this.userGrade = user.getUserGrade();
-        this.createdAt = user.getCreatedAt();
-        this.updatedAt = user.getUpdatedAt();
-        this.lastLoginAt = user.getLastLoginAt();
-        this.consentRenewalDate = user.getConsentRenewalDate();
-        this.likes = user.getLikes();
-        this.reports = user.getReports();
-        this.posts = user.getPosts();
-        this.comments = user.getComments();
-        this.subscribes = user.getSubscribes();
-        this.payments = user.getPayments();
-        this.socialLoginType = user.getSocialLoginType();
+    public GetAllSubscribeRes(Subscribe subscribe){
+        this.id = subscribe.getUser().getId();
+        this.email = subscribe.getUser().getEmail();
+        this.name = subscribe.getUser().getName();
+        this.nickname = subscribe.getUser().getNickname();
+        this.phoneNum = subscribe.getUser().getPhoneNum();
+        this.isOAuth = subscribe.getUser().isOAuth();
+        this.profileImageUrl = subscribe.getUser().getProfileImageUrl();
+        this.birthYear = subscribe.getUser().getBirthYear();
+        this.birthMonth = subscribe.getUser().getBirthMonth();
+        this.birthDay = subscribe.getUser().getBirthDay();
+        this.termsOfUseAgree = subscribe.getUser().isTermsOfUseAgree();
+        this.termsDataPolicyAgree = subscribe.getUser().isTermsDataPolicyAgree();
+        this.termsLocationAgree = subscribe.getUser().isTermsLocationAgree();
+        this.userStatus = subscribe.getUser().getUserStatus();
+        this.userGrade = subscribe.getUser().getUserGrade();
+        this.createdAt = subscribe.getUser().getCreatedAt();
+        this.updatedAt = subscribe.getUser().getUpdatedAt();
+        this.lastLoginAt = subscribe.getUser().getLastLoginAt();
+        this.consentRenewalDate = subscribe.getUser().getConsentRenewalDate();
+        this.likes = subscribe.getUser().getLikes();
+        this.reports = subscribe.getUser().getReports();
+        this.posts = subscribe.getUser().getPosts();
+        this.comments = subscribe.getUser().getComments();
+        this.subscribes = subscribe.getUser().getSubscribes();
+        this.payments = subscribe.getUser().getPayments();
+        this.socialLoginType = subscribe.getUser().getSocialLoginType();
+
     }
 }

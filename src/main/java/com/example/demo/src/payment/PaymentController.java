@@ -2,6 +2,8 @@ package com.example.demo.src.payment;
 
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.validation.annotation.ExistUser;
+import com.example.demo.src.payment.model.GetAllSubscribeReq;
+import com.example.demo.src.payment.model.GetAllSubscribeRes;
 import com.example.demo.src.payment.model.PostPaymentRes;
 import com.example.demo.src.payment.model.PostSubscribeRes;
 import com.example.demo.utils.JwtService;
@@ -9,6 +11,7 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,8 +58,21 @@ public class PaymentController {
         return new BaseResponse<>(postSubscribeRes);
     }
 
-    // 구독
+    // !관리자용! 구독하는 유저 전체 조회
+    @ResponseBody
+    @GetMapping("/subscribe/admin")
+    @Operation(
+        summary = "구독하는 유저 전체 조회 API"
+        , description = "# !관리자용! 구독하는 유저 전체 조회 API 입니다."
+    )
+    public BaseResponse<List<GetAllSubscribeRes>> getAllSubscribe(GetAllSubscribeReq getAllSubscribeReq){
+        List<GetAllSubscribeRes> getAllSubscribeRes = paymentService.getAllSubscribeForAdmin(getAllSubscribeReq);
+        return new BaseResponse<>(getAllSubscribeRes);
+    }
 
+
+
+    // !관리자용! 구독하는 유저 정보 상세 조회
 
 
 }
