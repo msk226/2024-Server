@@ -138,6 +138,10 @@ public class PaymentService {
             .collect(Collectors.toList());
     }
 
+    public GetAllSubscribeRes getSubscribe(Long subscribeId) {
+        return new GetAllSubscribeRes(subscribeRepository.findById(subscribeId).orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_SUBSCRIBE)));
+    }
+
     // 정기 결제 로직
     public void createRegularPayment() {
 

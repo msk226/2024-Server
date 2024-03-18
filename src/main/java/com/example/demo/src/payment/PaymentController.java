@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +66,7 @@ public class PaymentController {
         summary = "구독하는 유저 전체 조회 API"
         , description = "# !관리자용! 구독하는 유저 전체 조회 API 입니다."
     )
-    public BaseResponse<List<GetAllSubscribeRes>> getAllSubscribe(GetAllSubscribeReq getAllSubscribeReq){
+    public BaseResponse<List<GetAllSubscribeRes>> getAllSubscribe(@RequestBody GetAllSubscribeReq getAllSubscribeReq){
         List<GetAllSubscribeRes> getAllSubscribeRes = paymentService.getAllSubscribeForAdmin(getAllSubscribeReq);
         return new BaseResponse<>(getAllSubscribeRes);
     }
@@ -74,5 +75,15 @@ public class PaymentController {
 
     // !관리자용! 구독하는 유저 정보 상세 조회
 
+    @ResponseBody
+    @GetMapping("/subscribe/{subscribeId}/admin")
+    @Operation(
+        summary = "구독하는 유저 전체 조회 API"
+        , description = "# !관리자용! 구독하는 유저 전체 조회 API 입니다."
+    )
+    public BaseResponse<GetAllSubscribeRes> getAllSubscribe(@PathVariable Long subscribeId){
+        GetAllSubscribeRes getAllSubscribeRes = paymentService.getSubscribe(subscribeId);
+        return new BaseResponse<>(getAllSubscribeRes);
+    }
 
 }
