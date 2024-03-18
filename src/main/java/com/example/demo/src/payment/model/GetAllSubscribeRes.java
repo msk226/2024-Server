@@ -1,4 +1,4 @@
-package com.example.demo.src.user.model;
+package com.example.demo.src.payment.model;
 
 import com.example.demo.common.Constant.SocialLoginType;
 import com.example.demo.common.Constant.UserGrade;
@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetUserAllDetailRes {
+public class GetAllSubscribeRes {
     private Long id;
     private String email;
     private String name;
@@ -49,7 +49,7 @@ public class GetUserAllDetailRes {
     private List<Payments> payments;
     private SocialLoginType socialLoginType;
 
-    public GetUserAllDetailRes(User user){
+    public GetAllSubscribeRes(User user){
         this.id = user.getId();
         this.email = user.getEmail();
         this.name = user.getName();

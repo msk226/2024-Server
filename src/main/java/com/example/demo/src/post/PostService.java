@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,7 +128,8 @@ public class PostService {
         if (getAllPostingReq.getState() != null) {
             search.put("state", getAllPostingReq.getState());
         }
-        return postRepository.findAll(EntitySpecification.searchPost(search)).stream()
+        Sort sort = Sort.by(Sort.Direction.DESC, "author.createdAt");
+        return postRepository.findAll(EntitySpecification.searchPost(search), sort).stream()
             .map(GetAllPostingRes::new)
             .collect(Collectors.toList());
     }

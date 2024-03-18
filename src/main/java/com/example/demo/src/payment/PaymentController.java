@@ -55,6 +55,8 @@ public class PaymentController {
         return new BaseResponse<>(postSubscribeRes);
     }
 
+    // 구독
+
 
 
 }
