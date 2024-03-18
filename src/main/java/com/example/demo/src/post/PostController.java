@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -152,7 +153,7 @@ public class PostController {
 
     // !관리자용! 게시글 삭제
     @ResponseBody
-    @PatchMapping("/admin/{postId}/delete")
+    @DeleteMapping("/admin/{postId}/delete")
     @Operation(
         summary = "# !관리자용! 게시글 삭제 API"
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. 또한 관리자만 이용 가능합니다. `Path Variable`로 삭제할 게시글의 `postId`를 입력하세요."

@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,7 +80,7 @@ public class ReportController {
 
     // 댓글 및 게시물 신고로 인한 삭제 (관리자용)
     @ResponseBody
-    @PostMapping("/{reportId}/admin/{adminId}")
+    @DeleteMapping("/{reportId}/admin/{adminId}")
     @Operation(
         summary = "# !관리자용! 게시물 및 댓글 신고로 인한 삭제 API"
         , description = "# 관리자만 이용 가능합니다. `Path Variable`로 삭제할 `reportId`를 입력 하세요."
