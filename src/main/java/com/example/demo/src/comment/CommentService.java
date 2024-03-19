@@ -30,7 +30,7 @@ public class CommentService {
     private final PostRepository postRepository;
 
     public PostCommentRes createComment(PostCommentReq postCommentReq) {
-        User user = userRepository.findByIdAndState(postCommentReq.getAuthorId(), State.ACTIVE)
+        User user = userRepository.findByIdAndState(postCommentReq.getUserId(), State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
         Post post = postRepository.findByIdAndState(postCommentReq.getPostId(), State.ACTIVE)
             .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));

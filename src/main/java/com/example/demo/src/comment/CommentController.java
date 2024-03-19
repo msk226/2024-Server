@@ -50,7 +50,7 @@ public class CommentController {
         , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
     )
     public BaseResponse<PostCommentRes> createComment(@RequestBody @Valid PostCommentReq postCommentReq){
-        jwtService.isUserValid(postCommentReq.getAuthorId());
+        jwtService.isUserValid(postCommentReq.getUserId());
         PostCommentRes postCommentRes = commentService.createComment(postCommentReq);
         return new BaseResponse<>(postCommentRes);
     }

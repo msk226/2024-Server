@@ -21,7 +21,7 @@ public class PostCommentReq {
     String content;
 
     @ExistUser
-    Long authorId;
+    Long userId;
 
     @ExistPost
     Long postId;
