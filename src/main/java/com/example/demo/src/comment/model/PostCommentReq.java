@@ -19,8 +19,10 @@ public class PostCommentReq {
 
     @Size(min = 1, max = 100, message = "댓글은 100자 이내로 작성해주세요.")
     String content;
+
     @ExistUser
     Long authorId;
+
     @ExistPost
     Long postId;
 

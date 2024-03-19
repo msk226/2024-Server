@@ -55,9 +55,6 @@ public class Post extends BaseEntity{
     private List<Comment> comments = new ArrayList<>();
 
     @ElementCollection
-    private List<String> hashTags = new ArrayList<>();
-
-    @ElementCollection
     private List<String> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

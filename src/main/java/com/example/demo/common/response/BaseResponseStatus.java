@@ -75,6 +75,7 @@ public enum BaseResponseStatus {
     UNAUTHORIZED_USER(false, HttpStatus.UNAUTHORIZED.value(), "권한이 없는 유저입니다."),
     COMMENT_DELETED_BY_REPORT(false, HttpStatus.FORBIDDEN.value(), "신고로 인해 댓글이 삭제되었습니다."),
     INVALID_INPUT_VALUE(false, HttpStatus.BAD_REQUEST.value(), "입력값이 잘못되었습니다."),
+    NO_COMMENT(false, HttpStatus.NOT_FOUND.value(), "댓글이 없습니다."),
 
 
     /**

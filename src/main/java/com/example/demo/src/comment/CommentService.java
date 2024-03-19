@@ -81,6 +81,14 @@ public class CommentService {
 
     public GetCommentPreviewRes findAllBySearchByPostId(Long postId, int page, int size) {
         PageRequest request = PageRequest.of(page, size);
+
+        Post post = postRepository.findByIdAndState(postId, State.ACTIVE)
+            .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
+
+        if (post.getComments().isEmpty()){
+            throw new BaseException(BaseResponseStatus.NO_COMMENT);
+        }
+
         Page<Comment> comments = commentRepository.findAllByStateAndPostIdOrderByCreatedAtDesc(postId, request, State.ACTIVE);
         return new GetCommentPreviewRes(comments);
     }
