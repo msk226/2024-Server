@@ -89,7 +89,8 @@ public class CommentService {
             throw new BaseException(BaseResponseStatus.NO_COMMENT);
         }
 
-        Page<Comment> comments = commentRepository.findAllByStateAndPostIdOrderByCreatedAtDesc(postId, request, State.ACTIVE);
+        Page<Comment> comments = commentRepository.findAllByStateAndPostIdOrderByCreatedAtDesc(
+            State.ACTIVE, postId, request);
         return new GetCommentPreviewRes(comments);
     }
 }
