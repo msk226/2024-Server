@@ -1,5 +1,6 @@
 package com.example.demo.src.report;
 
+import com.example.demo.common.entity.BaseEntity.State;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.comment.CommentRepository;
@@ -13,6 +14,7 @@ import com.example.demo.src.user.UserRepository;
 import com.example.demo.src.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -24,7 +26,7 @@ public class ReportService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
 
-    // 신고하기
+    // 신고 하기
     public Report createReportForPost(PostReportPostReq postReportPostReq) {
         User reportUser = userRepository.findById(postReportPostReq.getUserId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FIND_USER));
@@ -32,19 +34,23 @@ public class ReportService {
         Post reportPost = postRepository.findById(postReportPostReq.getPostId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.POST_NOT_FOUND));
 
+        if (reportPost.getState() != State.ACTIVE) {
+            throw new BaseException(BaseResponseStatus.POST_DELETED);
+        }
+
         Report report = postReportPostReq.toEntity(reportUser, reportPost);
+
         try{
             reportPost.addReport(report);
             reportRepository.save(report);
+            if (reportRepository.countByReportPostId(reportPost.getId()) >= 5) {
+                reportPost.softDelete();
+            }
         }
         catch (Exception ignored){
             throw new BaseException(BaseResponseStatus.FAILED_TO_POST_REPORT);
         }
 
-        if (reportPost.getReports().size() >= 5) {
-            reportPost.softDelete();
-            throw new BaseException(BaseResponseStatus.POST_DELETED_BY_REPORT);
-        }
         return report;
     }
 
@@ -55,18 +61,20 @@ public class ReportService {
         Comment reportComment = commentRepository.findById(postReportCommentReq.getCommentId())
             .orElseThrow(() -> new BaseException(BaseResponseStatus.COMMENT_NOT_FOUND));
 
+        if (reportComment.getState() != State.ACTIVE) {
+            throw new BaseException(BaseResponseStatus.COMMENT_DELETED);
+        }
+
         Report report = postReportCommentReq.toEntity(reportUser, reportComment);
         try{
             reportComment.addReport(report);
             reportRepository.save(report);
+            if (reportRepository.countByReportCommentId(reportComment.getId()) >= 5) {
+                reportComment.softDelete();
+            }
         }
         catch (Exception ignored){
             throw new BaseException(BaseResponseStatus.FAILED_TO_POST_REPORT);
-        }
-
-        if (reportComment.getReports().size() >= 5) {
-            report.softDelete();
-            throw new BaseException(BaseResponseStatus.COMMENT_DELETED_BY_REPORT);
         }
         return report;
     }
@@ -81,6 +89,7 @@ public class ReportService {
         return reportRepository.findById(reportId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.REPORT_NOT_FOUND));
     }
+
     public void deletePostOrCommentByReport(Long reportId) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.REPORT_NOT_FOUND));

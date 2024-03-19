@@ -43,6 +43,7 @@ public enum BaseResponseStatus {
     NOT_ACITVE_USER(false,HttpStatus.FORBIDDEN.value(),"탈퇴한 유저입니다."),
     INVALID_OAUTH_TYPE(false, HttpStatus.BAD_REQUEST.value(), "알 수 없는 소셜 로그인 형식입니다."),
     POST_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 게시물입니다."),
+    POST_DELETED(false, HttpStatus.FORBIDDEN.value(), "삭제된 게시물입니다."),
     POST_ID_NULL(false, HttpStatus.BAD_REQUEST.value(), "게시물 ID를 입력해주세요."),
     NOT_MATCH_USER(false, HttpStatus.FORBIDDEN.value(), "작성자가 아닙니다."),
     REPORT_NOT_FOUND(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 신고입니다."),
@@ -74,6 +75,7 @@ public enum BaseResponseStatus {
     NEEDS_CONSENT(false, HttpStatus.FORBIDDEN.value(), "개인정보 동의가 필요합니다."),
     UNAUTHORIZED_USER(false, HttpStatus.UNAUTHORIZED.value(), "권한이 없는 유저입니다."),
     COMMENT_DELETED_BY_REPORT(false, HttpStatus.FORBIDDEN.value(), "신고로 인해 댓글이 삭제되었습니다."),
+    COMMENT_DELETED(false, HttpStatus.FORBIDDEN.value(), "삭제된 댓글입니다."),
     INVALID_INPUT_VALUE(false, HttpStatus.BAD_REQUEST.value(), "입력값이 잘못되었습니다."),
     NO_COMMENT(false, HttpStatus.NOT_FOUND.value(), "댓글이 없습니다."),
 

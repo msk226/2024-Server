@@ -4,4 +4,8 @@ import com.example.demo.src.report.entity.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReportRepository extends JpaRepository<Report, Long> {
+
+    Integer countByReportPostId(Long postId);
+
+    Integer countByReportCommentId(Long commentId);
 }
