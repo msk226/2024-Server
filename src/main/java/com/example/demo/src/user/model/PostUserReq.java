@@ -63,8 +63,6 @@ public class PostUserReq {
     @NotNull(message = "위치정보 이용 동의는 필수 입력사항 입니다.")
     private boolean termsLocationAgree;
 
-    private UserStatus userStatus;
-    private UserGrade userGrade;
     private boolean isOAuth;
     private SocialLoginType socialLoginType;
 
