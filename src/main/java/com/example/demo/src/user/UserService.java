@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 import static com.example.demo.common.Constant.UserStatus.NEEDS_CONSENT;
 import static com.example.demo.common.entity.BaseEntity.State.ACTIVE;
+import static com.example.demo.common.entity.BaseEntity.State.INACTIVE;
 import static com.example.demo.common.response.BaseResponseStatus.*;
 
 // Service Create, Update, Delete 의 로직 처리
@@ -41,8 +42,8 @@ public class UserService {
     //POST
     public PostUserRes createUser(PostUserReq postUserReq) {
         //중복 체크
-        Optional<User> checkUser = userRepository.findByEmailAndState(postUserReq.getEmail(), ACTIVE);
-        if(checkUser.isPresent() == true){
+
+        if (userRepository.existsByEmail(postUserReq.getEmail())) {
             throw new BaseException(POST_USERS_EXISTS_EMAIL);
         }
 

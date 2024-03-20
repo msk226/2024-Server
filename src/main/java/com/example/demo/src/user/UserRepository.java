@@ -15,6 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Optional<User> findByEmailAndState(String email, State state);
     List<User> findAllByEmailAndState(String email, State state);
     boolean existsByEmailAndState(String email, State state);
+    boolean existsByEmail(String email);
     List<User> findAllByState(State state);
 
 
