@@ -166,6 +166,10 @@ public class User extends BaseEntity {
         this.consentRenewalDate = LocalDateTime.now();
     }
 
+    public void setAdmin(){
+        this.userGrade = UserGrade.ADMIN;
+    }
+
     public void deleteUser() {
         this.state = State.INACTIVE;
         this.userStatus = UserStatus.WITHDRAWN;

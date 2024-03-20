@@ -218,6 +218,12 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public void setAdmin(Long userId) {
+        User user = userRepository.findByIdAndState(userId, ACTIVE)
+                .orElseThrow(() -> new BaseException(NOT_FIND_USER));
+        user.setAdmin();
+    }
+
     @Transactional(readOnly = true)
     public void isAdmin(Long userId) {
         User user = userRepository.findByIdAndState(userId, ACTIVE)

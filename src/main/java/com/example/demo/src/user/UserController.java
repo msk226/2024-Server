@@ -254,6 +254,24 @@ public class UserController {
         return new BaseResponse<>(result);
     }
 
+    /** !관리자용! 테스트 위해 유저에게 어드민 권한 부여 하는 API
+     * [GET] /app/users/admin/{userId}
+     * @return BaseResponse<String>
+     */
+    @ResponseBody
+    @PostMapping("/admin/{userId}")
+    @Operation(
+        summary = "!관리자용! 테스트 위해 유저에게 어드민 권한 부여 하는 API"
+        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하세요."
+    )
+    public BaseResponse<String> setAdmin(@PathVariable("userId") @ExistUser Long userId){
+        jwtService.isUserValid(userId);
+        userService.setAdmin(userId);
+        String result = "어드민 권한 부여 완료!!";
+        return new BaseResponse<>(result);
+    }
+
+
     /** !관리자용! 회원 전체 조회 API
      * [GET] /app/users/admin
      * @return BaseResponse<GetAllUserRes>
