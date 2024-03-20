@@ -57,6 +57,17 @@ public class ReportController {
     @Operation(
         summary = "댓글에 대한 신고 작성 API"
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Request body`에 신고할 내용을 입력하세요."
+        + "신고 사유는 SPAM,"
+        + "        NUDE_IMAGES,"
+        + "        HATE_SPEECH,"
+        + "        VIOLENCE_OR_DANGEROUS_ORGANIZATIONS,"
+        + "        ILLEGAL_OR_REGULATED_PRODUCTS,"
+        + "        HARASSMENT,"
+        + "        INTELLECTUAL_PROPERTY_INFRINGEMENT,"
+        + "        SUICIDE_OR_SELF_HARM,"
+        + "        EATING_DISORDERS,"
+        + "        FRAUD_OR_FALSE_INFORMATION,"
+        + "        DISLIKED_CONTENT 중 하나 입니다. "
         , security = @SecurityRequirement(name = "X-ACCESS-TOKEN")
     )
     public BaseResponse<PostReportRes> createReportForComment(@RequestBody @Valid PostReportCommentReq postReportCommentReq) {
