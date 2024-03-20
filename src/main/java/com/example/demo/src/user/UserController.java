@@ -136,7 +136,7 @@ public class UserController {
      * @return BaseResponse<String>
      */
     @ResponseBody
-    @DeleteMapping("/{userId}")
+    @PatchMapping("/{userId}")
     @Operation(
         summary = "회원 정보 삭제 API"
         , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다. `Path Variable`로 `userId`를 입력 하세요."
