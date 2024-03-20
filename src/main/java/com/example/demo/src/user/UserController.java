@@ -316,15 +316,4 @@ public class UserController {
         return new BaseResponse<>(userAllDetail);
     }
 
-    @ResponseBody
-    @GetMapping("/admin/logs")
-    @Operation(
-        summary = "!관리자용! 회원 로그 조회 API"
-        , description = "# Header에 `X-ACCESS-TOKEN`이 필요합니다."
-    )
-    public BaseResponse<String> getUserLogs(){
-        userService.isAdmin(jwtService.getUserId());
-        String result = "로그 조회 완료!!";
-        return new BaseResponse<>(result);
-    }
 }
