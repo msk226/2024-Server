@@ -28,6 +28,7 @@ import org.springframework.data.domain.Page;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Getter
+@Audited
 @Entity
 @Table(name = "REPORT")
 public class Report extends BaseEntity {
