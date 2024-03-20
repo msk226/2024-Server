@@ -63,8 +63,6 @@ public class PostUserReq {
     @NotNull(message = "위치정보 이용 동의는 필수 입력사항 입니다.")
     private boolean termsLocationAgree;
 
-    private boolean isOAuth;
-    private SocialLoginType socialLoginType;
 
     public User toEntity() {
         return User.builder()
@@ -72,7 +70,7 @@ public class PostUserReq {
                 .password(this.password)
                 .name(this.name)
                 .nickname(this.nickname)
-                .isOAuth(this.isOAuth)
+                .isOAuth(false)
                 .profileImageUrl(this.profileImageUrl)
                 .phoneNum(this.phoneNum)
                 .birthYear(this.birthYear)
