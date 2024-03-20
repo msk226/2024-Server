@@ -29,7 +29,6 @@ import org.hibernate.envers.Audited;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 @Getter
-@Audited
 @Entity // 필수, Class 를 Database Table화 해주는 것이다
 @Table(name = "COMMENT")
 public class Comment extends BaseEntity {

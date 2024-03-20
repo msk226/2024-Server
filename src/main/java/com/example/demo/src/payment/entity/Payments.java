@@ -27,7 +27,6 @@ import org.hibernate.envers.Audited;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
-@Audited
 @Getter
 @Entity // 필수, Class 를 Database Table화 해주는 것이다
 @Table(name = "PAYMENT")

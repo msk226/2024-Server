@@ -28,7 +28,6 @@ import org.hibernate.envers.Audited;
 @Getter
 @Builder
 @Entity
-@Audited
 @Table(name = "SUBSCRIBE")
 public class Subscribe extends BaseEntity {
 

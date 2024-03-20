@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import static com.example.demo.common.entity.BaseEntity.*;
 
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User>{
     Optional<User> findByIdAndState(Long id, State state);
     Optional<User> findByEmail(String email);
     Optional<User> findByEmailAndState(String email, State state);
