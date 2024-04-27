@@ -18,9 +18,9 @@ spring:
     init:
       platform: mysql
   datasource:
-    url: jdbc:mysql://52.78.26.174:3306/2024_Server?useSSL=false&setTimezone=Asia/Seoul&useUnicode=true&characterEncoding=UTF-8
-    username: root # username
-    password: 52575167 # password
+    url: ${DB_URL} # database url
+    username: ${DB_USER} # username
+    password: ${DB_PASSWORD} # password
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     #driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
   OAuth2:
