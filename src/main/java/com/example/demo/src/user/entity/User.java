@@ -198,4 +198,5 @@ public class User extends BaseEntity {
     }
      public void addComment(Comment comment){
         this.comments.add(comment);}
+
 }

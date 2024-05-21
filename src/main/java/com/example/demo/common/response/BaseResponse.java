@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 import static com.example.demo.common.response.BaseResponseStatus.SUCCESS;
 
@@ -32,6 +33,12 @@ public class BaseResponse<T> {
         this.isSuccess = status.isSuccess();
         this.message = status.getMessage();
         this.code = status.getCode();
+    }
+
+    public BaseResponse(String message) {
+        this.isSuccess = false;
+        this.message = message;
+        this.code = HttpStatus.BAD_REQUEST.value();
     }
 
 }

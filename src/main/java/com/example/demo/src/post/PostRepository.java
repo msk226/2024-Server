@@ -20,6 +20,5 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
     Page<Post> findAllByStateOrderByCreatedAtDesc(Pageable pageable, State state);
     Optional<Post> findByIdAndState(Long id, State state);
     boolean existsByIdAndState(Long id, State state);
-
     List<Post> findAll(Specification<Post> spec, Sort sort);
 }

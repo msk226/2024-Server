@@ -18,9 +18,9 @@ spring:
     init:
       platform: mysql
   datasource:
-    url: ${DB_URL} # database url
-    username: ${DB_USER} # username
-    password: ${DB_PASSWORD} # password
+    url: jdbc:mysql://localhost:3306/server # database url
+    username: root # username
+    password: 5167 # password
     driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8버전
     #driver-class-name: com.mysql.jdbc.Driver # mysql 5버전
   OAuth2:
@@ -32,7 +32,7 @@ spring:
       scope: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile # 등록한 정보에 맞게 수정해주세요
     kakao:
       url: https://kauth.kakao.com/oauth/authorize
-      client-id: ${KAKAO_CLIENT_ID} # client-id
+      client-id: f5b6589a8780e3283fd776ebea41d9a2 # client-id
       callback-login-url: http://localhost:9000/app/users/auth/kakao/login/callback # 등록한 정보에 맞게 수정해주세요
    #   scope: profile, account_email # 등록한 정보에 맞게 수정해주세요
 
@@ -91,13 +91,7 @@ spring:
         format_sql: false
 
 ---
-ssh:
-  remote_jump_host: ${JUMP_HOST} # 원격서버에 접속할 점프서버
-  ssh_port: ${SSH_PORT}    # ssh 프로토콜 포트
-  user: ubuntu            # ssh 연결할 사용자 계정
-  private_key: ${PRIVATE_KEY}     # ssh 연결 시 사용할 개인키 파일 경로
-  database_port: ${DATABASE_PORT}    # 원격서버에 있는 db 포트
-  passphrase: ${PASSPHRASE}    # 개인키 암호화 키
+
 
 spring:
   config:
