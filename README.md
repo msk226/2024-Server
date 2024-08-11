@@ -1,3 +1,56 @@
+
+# Gridge Test
+
+**CTO & 10년차 웹 리드개발자가 작성한 개발 가이드라인을 통해 협업 과정을 경험하는 몰입 시뮬레이션 챌린지**
+
+**Spring Boot 파트에서 좋은 성적을 거두어 외주 자격 획득 및 대면 멘토링 기회까지 얻게 되었습니다.** 
+
+
+<img width="903" alt="스크린샷 2024-05-21 오후 3 45 52" src="https://github.com/user-attachments/assets/53668862-485a-40b8-bc2a-f2bf5f5a43b6">
+
+2024. 03 ~ 2024. 05 / 개인 개발
+
+### 🛠️ Skills
+
+**Java, Spring-Boot, JPA, MySQL, Docker, AWS EC2, Firebase Database** 
+
+### 🔑 Roles
+
+- Swagger 기반 API 명세서 작성 및 ERD 설계를 통한 프로젝트 구축
+- 서비스 CRUD API 개발
+    - 회원 / 게시물 / 댓글 / 신고 관련 CRUD
+    - Firebase Database 기반 이미지 업로드 및 삭제
+- @RestControllerAdvice 기반 에러 핸들링 기능
+- 애노테이션을 통한 Validation 기능
+- JPA Specification 통한 유연한 조회 기능
+- KaKao 기반 소셜 로그인
+- Docker & AWS EC2 기반 배포
+
+### 🖥️ Code
+
+- **ERD**
+    - https://www.erdcloud.com/d/4qot3o4GwfzFFXfrw
+    
+- **JPA Specification**
+    - [feature] 구독하는 유저 전체 조회 API 구현 [https://github.com/msk226/2024-Server/commit/cd9873f2d7add12a750ef8d019f8fca7370457d2]
+
+- **서비스 CRUD**
+    - [feature] 게시글 작성 API 구현 [https://github.com/msk226/2024-Server/commit/d540efe86733bc36fb7c048077e1258e59d94b9c]
+    - [feature] 댓글 무한 페이징 API 구현 [https://github.com/msk226/2024-Server/commit/71787ca2582c368d1b9d40698e2bd961673a95ec]
+    - [feature] 댓글 신고 기능 구현 [https://github.com/msk226/2024-Server/commit/021fef9f9e12ae1051a1b837e5bffb42e6232779]
+    - [feature] 이미지 기능 구현 위해 Firebase storage 연결 [https://github.com/msk226/2024-Server/commit/d7ca773b08eb7dc1e608402cb0fb6df40d905c0d]
+    - [feature] 카카오 로그인 기능 구현 [https://github.com/msk226/2024-Server/commit/a82c96411b1497aa22ccf3979b7b10a23e4fcb87]
+    
+- **애노테이션을 통한 Validation**
+    - [refactor] CommentController Validation 어노테이션 추가 [https://github.com/msk226/2024-Server/commit/4e5159f733e38c2c8dc8bdcfd09849e64c8dd3d8]
+    - [refactor] PostController Validation 어노테이션 추가 [https://github.com/msk226/2024-Server/commit/666c8050d01c6cb54c44a625716f16f6e649b3cc]
+    - [refactor] PaymentController Validation 어노테이션 추가 [https://github.com/msk226/2024-Server/commit/e01f3794611541cd6fab3ffa34bbbf7d86d1e0e7]
+    
+- 에러 핸들링
+    - [feature] 에러 핸들러 코드 추가 [https://github.com/msk226/2024-Server/commit/88377bc66db3bbce211297fa1a410143cca380af]
+
+
+--- 
 # SpringBoot Template
 본 템플릿은 소프트스퀘어드 서버 교육용 Spring Boot 템플릿 입니다.
 
