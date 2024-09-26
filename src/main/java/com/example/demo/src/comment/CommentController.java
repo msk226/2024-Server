@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin
 @RestController
-@RequestMapping("/app/comments")
+@RequestMapping("/app/comment")
 public class CommentController {
 
     private final CommentService commentService;
