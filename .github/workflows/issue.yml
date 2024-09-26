@@ -7,4 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Debug event payload
-        run: echo "${{ toJson(github.event) }}"
+        run: echo "${{ toJson(github.event.issue.title) }}"
+             
